@@ -51,6 +51,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "algJSL"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "polars",
+ "reqwest",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "android-tzdata"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -795,18 +807,6 @@ checksum = "a865e038f7f6ed956f788f0d7d60c541fff74c7bd74272c5d4cf15c63743e705"
 dependencies = [
  "once_cell",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "learning_rust"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "polars",
- "reqwest",
- "serde_json",
- "tokio",
 ]
 
 [[package]]
