@@ -1,23 +1,23 @@
 use chrono::NaiveDateTime;
 
 /// Enum to denote what kind of operation is being made.
-pub enum Operation<'a> {
+pub enum Operation {
     Buy {
         datetime: NaiveDateTime,
-        isin: &'a str,
+        isin: String,
         shares: f64,
         price: f64,
     },
     Sell {
         datetime: NaiveDateTime,
-        isin: &'a str,
+        isin: String,
         shares: f64,
         price: f64,
     },
     Transfer {
         datetime: NaiveDateTime,
-        isin_from: &'a str,
-        isin_to: &'a str,
+        isin_from: String,
+        isin_to: String,
         shares_from: f64,
         price_from: f64,
         shares_to: f64,

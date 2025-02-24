@@ -1,6 +1,8 @@
-//#![allow(unused)]
+#![allow(unused)]
 
 mod logic;
 mod modules;
 
-fn main() {}
+fn main() {
+    println!("Hello world!");
+}
