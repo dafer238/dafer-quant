@@ -6,4 +6,6 @@ edition = "2021"
 [dependencies]
 chrono = "0.4" 
 polars = { version = "*", features=["csv", "describe"]}
+polars-core = { version = "*", features = ["algorithm_group_by"] }
+polars-io = { version = "*", default-features = false, features = ["csv"] }
 uuid = { version = "*", features = ["v4"] }

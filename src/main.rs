@@ -4,8 +4,9 @@ mod logic;
 mod modules;
 
 use modules::assets::{Owner, Position};
-use polars::frame::DataFrame;
-use polars::prelude::*;
+use polars_core::prelude::*;
+use polars_io::prelude::*;
+use std::{fs::File, ptr::read};
 
 fn main() {
     println!("");
@@ -25,26 +26,15 @@ fn main() {
     // Path to the CSV file
     let file_path = "hourly_data.csv";
 
-    // Read the CSV file into a DataFrame
     let shares_dani = CsvReadOptions::default()
         .with_has_header(true)
         .try_into_reader_with_file_path(Some(file_path.into()))
-        .expect("Error");
+        .expect("Failed to read CSV file")
+        .finish()
+        .expect("Failed to finish reading CSV");
 
     // Print the DataFrame
-    println!("{:?}", shares_dani);
-
-    // Optionally, you can cast the datetime column into a proper DateTime type
-    // This step is optional and depends on how you want to use the datetime values.
-    let shares_dani = shares_dani.with_column(
-        shares_dani["datetime"]
-            .str()
-            .strptime("%Y-%m-%d %H:%M:%S", Some(TimeUnit::Milliseconds))?
-            .alias("datetime"),
-    )?;
-
-    // Print the DataFrame with the converted datetime column
-    println!("{:?}", shares_dani);
+    //println!("{:?}", shares_dani);
 
     let mut positions_dani = Position::new("AAPL".to_string(), dani, shares_dani);
 
