@@ -1,0 +1,20 @@
+/* src/frontend/styles/main.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Custom styles */
+.page-transition {
+    transition: all 0.3s ease-in-out;
+}
+
+.fade-enter {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
