@@ -1,10 +1,5 @@
-[package]
-name = "algJSL"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+members = ["perf_macro", "algjsl"]
 
-[dependencies]
-perf_macro = {path="../perf_macro"}
-chrono.workspace = true
-polars = { version = "*", features=["csv", "describe"]}
-uuid = { version = "*", features = ["v4"] }
+[workspace.dependencies]
+chrono = "0.4.40"
