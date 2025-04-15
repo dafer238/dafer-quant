@@ -1,13 +1,15 @@
 #![allow(unused)]
 
+use perf_macro::measure;
+use std::env;
+
 mod logic;
 mod modules;
 
 use modules::assets::{Owner, Position};
-use polars_core::prelude::*;
-use polars_io::prelude::*;
-use std::{fs::File, ptr::read};
+use polars::prelude::*;
 
+#[measure]
 fn main() {
     println!("");
     let mut dani = Owner::new(1, "Dani".to_string());
@@ -23,8 +25,11 @@ fn main() {
 
     println!("{:?}", dani);
 
-    // Path to the CSV file
-    let file_path = "hourly_data.csv";
+    // Get the current working directory (CWD) where the program is run from
+    let cwd = env::current_dir().expect("Failed to get cwd");
+
+    // Construct the file path relative to the CWD
+    let file_path = cwd.join("./algjsl/hourly_data.csv");
 
     let shares_dani = CsvReadOptions::default()
         .with_has_header(true)

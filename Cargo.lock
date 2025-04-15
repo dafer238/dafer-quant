@@ -45,8 +45,6 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "polars",
- "polars-core",
- "polars-io",
  "uuid",
 ]
 
