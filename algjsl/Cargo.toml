@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-perf_macro = {path="../perf_macro"}
-chrono.workspace = true
-polars = { version = "*", features=["csv", "describe"]}
-uuid = { version = "*", features = ["v4"] }
+perf_macro = {path="../perf_macro"} # Macro to measure performance
+utils = {path="../utils"}           # Utils common to the project
+chrono.workspace = true             # Shared chrono lib 
+polars = { version = "0.46.0", default-features = false, features = ["lazy", "csv", "describe", "fmt"] }
+uuid = { version = "1.16.0", features = ["v4"] }

@@ -2,6 +2,7 @@
 
 use perf_macro::measure;
 use std::env;
+use utils::get_project_cwd;
 
 mod logic;
 mod modules;
@@ -26,10 +27,10 @@ fn main() {
     println!("{:?}", dani);
 
     // Get the current working directory (CWD) where the program is run from
-    let cwd = env::current_dir().expect("Failed to get cwd");
+    let cwd = get_project_cwd();
 
     // Construct the file path relative to the CWD
-    let file_path = cwd.join("./algjsl/hourly_data.csv");
+    let file_path = cwd.join("data/input/hourly_data.csv");
 
     let shares_dani = CsvReadOptions::default()
         .with_has_header(true)

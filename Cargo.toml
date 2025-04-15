@@ -1,5 +1,14 @@
 [workspace]
-members = ["perf_macro", "algjsl"]
+resolver = "3"
+members = ["perf_macro", "algjsl", "utils"]
 
 [workspace.dependencies]
 chrono = "0.4.40"
+
+[profile.dev]
+opt-level = 0         # Don't optimize
+debug = true          # Keep debug info
+split-debuginfo = "unpacked"  # Speeds up linking on some systems
+incremental = true    # Enable incremental compilation
+codegen-units = 16    # Parallelizes compilation units
+

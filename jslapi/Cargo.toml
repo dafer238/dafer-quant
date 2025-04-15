@@ -8,7 +8,9 @@ ssr = []
 
 [dependencies]
 # General
-chrono = "0.4"
+chrono.workspace = true
+perf_macro = {path="../perf_macro"} # Macro to measure performance
+utils = {path="../utils"}           # Utils common to the project
 
 # Server
 axum = { version = "*", features = ["macros"] }

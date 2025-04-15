@@ -46,6 +46,7 @@ dependencies = [
  "chrono",
  "perf_macro",
  "polars",
+ "utils",
  "uuid",
 ]
 
@@ -393,7 +394,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "976dd42dc7e85965fe702eb8164f21f450704bdde31faefd6471dba214cb594e"
 dependencies = [
  "libc",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -909,10 +910,8 @@ dependencies = [
  "polars-error",
  "polars-io",
  "polars-lazy",
- "polars-ops",
  "polars-parquet",
  "polars-sql",
- "polars-time",
  "polars-utils",
  "version_check",
 ]
@@ -1061,7 +1060,6 @@ dependencies = [
  "async-trait",
  "atoi_simd",
  "bytes",
- "chrono",
  "fast-float2",
  "futures",
  "glob",
@@ -1078,7 +1076,6 @@ dependencies = [
  "polars-error",
  "polars-parquet",
  "polars-schema",
- "polars-time",
  "polars-utils",
  "rayon",
  "regex",
@@ -1568,7 +1565,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -1845,6 +1842,10 @@ name = "unicode-width"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1fc81956842c57dac11422a97c3b8195a1ff727f06e85c84ed2e8aa277c9a0fd"
+
+[[package]]
+name = "utils"
+version = "0.1.0"
 
 [[package]]
 name = "uuid"
