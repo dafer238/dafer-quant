@@ -4,8 +4,16 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+
+# Local crates
 perf_macro = {path="../perf_macro"} # Macro to measure performance
 utils = {path="../utils"}           # Utils common to the project
-chrono.workspace = true             # Shared chrono lib 
-polars = { version = "0.46.0", default-features = false, features = ["lazy", "csv", "describe", "fmt"] }
-uuid = { version = "1.16.0", features = ["v4"] }
+
+# Shared from the workspace
+chrono.workspace = true             
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+
+# Backend calculations specific
+polars = { version = "0.46.0", default-features = false, features = ["lazy", "csv", "describe", "fmt", "serde"] }

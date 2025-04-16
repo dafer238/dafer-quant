@@ -1,5 +1,2 @@
-[2025-04-15 10:18:30] ERROR   [algJSL::main] panicked after 297.474µs
-[2025-04-15 10:31:38] ERROR   [algJSL::main] panicked after 628.959µs
-[2025-04-15 10:33:20] SUCCESS [algJSL::main] took 15.039561ms
-[2025-04-15 10:40:21] ERROR   [algJSL::main] panicked after 632.999µs
-[2025-04-15 10:41:27] SUCCESS [algJSL::main] took 16.550147ms
+[2025-04-16 17:02:12] SUCCESS [algJSL::main] took 18.737471ms
+[2025-04-16 17:07:04] SUCCESS [algJSL::main] took 19.388512ms

@@ -1,15 +1,16 @@
 #[allow(unused)]
 use polars::prelude::DataFrame;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use uuid::Uuid;
 
-#[derive(Debug, Clone)]
 /// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Owner {
-    id: u32,             // Unique identifier for the owner
-    username: String,    // Username of the Owner
-    unique_id: String,   // Alphanumeric unique ID
-    assets: Vec<String>, // Assets in which the owner has active/closed positions.
+    pub id: u32,             // Unique identifier for the owner
+    pub username: String,    // Username of the Owner
+    pub unique_id: String,   // Alphanumeric unique ID
+    pub asset_ids: Vec<u32>, // Asset IDs in which the owner has active/closed positions.
 }
 
 impl Owner {
@@ -21,48 +22,48 @@ impl Owner {
         Self {
             id,
             username,
-            assets: Vec::new(),
             unique_id: Uuid::new_v4().to_string(),
+            asset_ids: Vec::new(),
         }
     }
     /// Add asset to Owner portfolio
-    pub fn add_asset(&mut self, new_isin: String) {
-        self.assets.push(new_isin);
+    pub fn add_asset(&mut self, new_id: u32) {
+        self.asset_ids.push(new_id);
     }
     /// Add assets to Owner portfolio
-    pub fn add_assets(&mut self, new_isins: Vec<String>) {
-        self.assets.extend(new_isins);
+    pub fn add_assets(&mut self, new_id: Vec<u32>) {
+        self.asset_ids.extend(new_id);
     }
 }
 
-#[derive(Debug, Clone)]
 /// Position in an Asset, owned by an Owner.
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Position {
-    isin: String,      // To match with the Asset in the DB.
-    owner: Owner,      // To assign to an Owner
-    shares: DataFrame, // Dataframe of Datetime \ Shares bought \ Shares acc.
+    pub isin: String,      // To match with the Asset in the DB.
+    pub owner_id: u32,     // To assign to an Owner
+    pub shares: DataFrame, // Dataframe of Datetime \ Shares bought \ Shares acc.
 }
 
 impl Position {
-    pub fn new(isin: String, owner: Owner, shares: DataFrame) -> Self {
+    pub fn new(isin: String, owner_id: u32, shares: DataFrame) -> Self {
         Self {
             isin,
-            owner,
+            owner_id,
             shares,
         }
     }
 }
 
-#[derive(Debug, Clone)]
 /// Struct to define an Asset univocally, keeping its information, and positions.
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Asset {
-    id: u32,                              // id of the Asset in the DB.
-    isin: String,                         // isin OR ticker of the Asset.
-    short_name: String,                   // abreviated name of the Asset.
-    name: String,                         // long name of the Asset
-    desc: String,                         // description of the Asset
-    positions: HashMap<String, Position>, // hasmap of Owner: Position of the Asset
-    history_data: DataFrame,              // historical data of the Asset
+    pub id: u32,                           // id of the Asset in the DB.
+    pub isin: String,                      // isin OR ticker of the Asset.
+    pub short_name: String,                // abreviated name of the Asset.
+    pub name: String,                      // long name of the Asset
+    pub desc: String,                      // description of the Asset
+    pub positions: HashMap<u32, Position>, // hasmap of owner_id: Position of the Asset
+    pub history_data: DataFrame,           // historical data of the Asset
 }
 
 impl Asset {
@@ -72,7 +73,7 @@ impl Asset {
         short_name: String,
         name: String,
         desc: String,
-        positions: HashMap<String, Position>,
+        positions: HashMap<u32, Position>,
         history_data: DataFrame,
     ) -> Self {
         Self {
@@ -89,11 +90,11 @@ impl Asset {
         self.history_data = new_history_data;
     }
     pub fn add_new_owner(&mut self, new_position: Position) {
-        let new_owner = new_position.owner.username.clone();
-        self.positions.insert(new_owner, new_position);
+        let new_owner_id = new_position.owner_id;
+        self.positions.insert(new_owner_id, new_position);
     }
     pub fn update_owner_position(&mut self, updated_position: Position) {
-        let owner = updated_position.owner.username.clone();
+        let owner = updated_position.owner_id;
         self.positions
             .entry(owner)
             .and_modify(|pos| *pos = updated_position.clone())

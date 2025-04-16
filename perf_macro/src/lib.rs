@@ -1,9 +1,10 @@
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{ItemFn, parse_macro_input};
+use utils::get_project_cwd;
 
 #[proc_macro_attribute]
-pub fn measure(_attr: TokenStream, item: TokenStream) -> TokenStream {
+pub fn performance_log(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let input = parse_macro_input!(item as ItemFn);
     let vis = &input.vis;
     let sig = &input.sig;
@@ -38,10 +39,17 @@ pub fn measure(_attr: TokenStream, item: TokenStream) -> TokenStream {
                 ),
             };
 
+            // In the macro-expanded code (or inside the macro-generated code block)
+            let mut log_path = get_project_cwd();
+            log_path.push("logs");
+
+            // Now push the file name
+            log_path.push("perf.log");
+
             if let Ok(mut file) = OpenOptions::new()
                 .create(true)
                 .append(true)
-                .open("perf.log")
+                .open(log_path)
             {
                 let _ = writeln!(file, "{}", __log_line);
             }

@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use perf_macro::measure;
+use perf_macro::performance_log;
 use std::env;
 use utils::get_project_cwd;
 
@@ -8,9 +8,10 @@ mod logic;
 mod modules;
 
 use modules::assets::{Owner, Position};
+use modules::operations::Operation;
 use polars::prelude::*;
 
-#[measure]
+#[performance_log]
 fn main() {
     println!("");
     let mut dani = Owner::new(1, "Dani".to_string());
@@ -21,8 +22,8 @@ fn main() {
     println!("{:?}", kepa);
     println!("{:?}", gorka);
 
-    dani.add_asset("AAPL".to_string());
-    dani.add_assets(vec!["LMT".to_string(), "MSFT".to_string()]);
+    dani.add_asset(1);
+    dani.add_assets(vec![3, 5]);
 
     println!("{:?}", dani);
 
@@ -42,7 +43,7 @@ fn main() {
     // Print the DataFrame
     //println!("{:?}", shares_dani);
 
-    let mut positions_dani = Position::new("AAPL".to_string(), dani, shares_dani);
+    let mut positions_dani = Position::new("AAPL".to_string(), 1, shares_dani);
 
     println!("{:?}", positions_dani)
 }

@@ -7,7 +7,12 @@ edition = "2024"
 proc-macro = true
 
 [dependencies]
+
+# Local crates
+utils = {path="../utils"}           # Utils common to the project
+
 chrono.workspace = true
-syn = "2"
-quote = "1"
+
+syn = { version = "2", features = ["full"] }
+quote = "1"  # You probably have this too
 proc-macro2 = "1"

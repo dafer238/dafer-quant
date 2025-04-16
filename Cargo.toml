@@ -1,9 +1,14 @@
 [workspace]
 resolver = "3"
-members = ["perf_macro", "algjsl", "utils"]
+members = ["algjsl", "perf_macro", "utils"]
 
 [workspace.dependencies]
-chrono = "0.4.40"
+
+# Shared across the workspace
+chrono = {version="0.4.40", features=["serde"]}
+serde = {version="1.0.219", features=["derive"]}
+serde_json = "1.0.140"
+uuid = { version = "1.16.0", features = ["v4"] }
 
 [profile.dev]
 opt-level = 0         # Don't optimize
