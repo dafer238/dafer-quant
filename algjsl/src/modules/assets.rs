@@ -1,40 +1,9 @@
 #[allow(unused)]
+use chrono::{DateTime, Utc};
 use polars::prelude::DataFrame;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use uuid::Uuid;
-
-/// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Owner {
-    pub id: u32,             // Unique identifier for the owner
-    pub username: String,    // Username of the Owner
-    pub unique_id: String,   // Alphanumeric unique ID
-    pub asset_ids: Vec<u32>, // Asset IDs in which the owner has active/closed positions.
-}
-
-impl Owner {
-    /// Implementation to create a new `Owner`, name and id shall be provided.
-    /// `id` (u32): Provided by the DB, incremental non-repeating.
-    /// `name` (String): Provided by the username account creation.
-    /// `unique_id` (String): Automatically generated uuid unique string.
-    pub fn new(id: u32, username: String) -> Self {
-        Self {
-            id,
-            username,
-            unique_id: Uuid::new_v4().to_string(),
-            asset_ids: Vec::new(),
-        }
-    }
-    /// Add asset to Owner portfolio
-    pub fn add_asset(&mut self, new_id: u32) {
-        self.asset_ids.push(new_id);
-    }
-    /// Add assets to Owner portfolio
-    pub fn add_assets(&mut self, new_id: Vec<u32>) {
-        self.asset_ids.extend(new_id);
-    }
-}
 
 /// Position in an Asset, owned by an Owner.
 #[derive(Debug, Clone, Serialize, Deserialize)]

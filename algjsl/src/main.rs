@@ -1,22 +1,19 @@
 #![allow(unused)]
-
 use perf_macro::performance_log;
-use std::env;
-use utils::get_project_cwd;
+use utils::get_cwd;
 
 mod logic;
 mod modules;
 
 use modules::assets::{Owner, Position};
-use modules::operations::Operation;
 use polars::prelude::*;
 
 #[performance_log]
 fn main() {
     println!("");
     let mut dani = Owner::new(1, "Dani".to_string());
-    let mut kepa = Owner::new(2, "Kepa".to_string());
-    let mut gorka = Owner::new(3, "Gorka".to_string());
+    let kepa = Owner::new(2, "Kepa".to_string());
+    let gorka = Owner::new(3, "Gorka".to_string());
 
     println!("{:?}", dani);
     println!("{:?}", kepa);
@@ -28,7 +25,7 @@ fn main() {
     println!("{:?}", dani);
 
     // Get the current working directory (CWD) where the program is run from
-    let cwd = get_project_cwd();
+    let cwd = get_cwd();
 
     // Construct the file path relative to the CWD
     let file_path = cwd.join("data/input/hourly_data.csv");
@@ -43,7 +40,7 @@ fn main() {
     // Print the DataFrame
     //println!("{:?}", shares_dani);
 
-    let mut positions_dani = Position::new("AAPL".to_string(), 1, shares_dani);
+    let positions_dani = Position::new("AAPL".to_string(), 1, shares_dani);
 
     println!("{:?}", positions_dani)
 }

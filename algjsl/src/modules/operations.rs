@@ -52,7 +52,7 @@ pub fn print_operations_header() {
     println!(
         "\n{:<22} {:<10} {:<12} {:>12} {:>12}\n{}",
         "DATE",
-        "OP",
+        "OPERATION",
         "ISIN",
         "SHARES",
         "PRICE",
@@ -60,14 +60,14 @@ pub fn print_operations_header() {
     );
 }
 
-pub fn print_operation(movement: Operation) {
+pub fn print_operation(movement: &Operation) {
     match movement {
         Operation::Buy {
             datetime,
             isin,
             shares,
             price,
-            transaction_comission,
+            transaction_comission: _,
         } => {
             println!(
                 "{:<22} {:<10} {:<12} {:>12.4} {:>12.4}",
@@ -84,7 +84,7 @@ pub fn print_operation(movement: Operation) {
             isin,
             shares,
             price,
-            transaction_comission,
+            transaction_comission: _,
         } => {
             println!(
                 "{:<22} {:<10} {:<12} {:>12.4} {:>12.4}",
@@ -104,7 +104,7 @@ pub fn print_operation(movement: Operation) {
             price_from,
             shares_to,
             price_to,
-            transaction_comission,
+            transaction_comission: _,
         } => {
             println!(
                 "{:<22} {:<10} {:<12} {:>12.4} {:>12.4}\n{:<22} {:<10} {:<12} {:>12.4} {:>12.4}",
@@ -121,5 +121,11 @@ pub fn print_operation(movement: Operation) {
                 // transaction_comission,
             );
         }
+    }
+}
+
+pub fn print_operations(operations: &[Operation]) {
+    for op in operations {
+        print_operation(op);
     }
 }
