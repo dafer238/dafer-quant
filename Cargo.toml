@@ -8,7 +8,7 @@ members = ["algjsl", "perf_macro", "utils"]
 chrono = {version="0.4.40", features=["serde"]}
 serde = {version="1.0.219", features=["derive"]}
 serde_json = "1.0.140"
-uuid = { version = "1.16.0", features = ["v4"] }
+uuid = { version = "1.16.0", features = ["v4", "serde"] }
 
 [profile.dev]
 opt-level = 0         # Don't optimize
