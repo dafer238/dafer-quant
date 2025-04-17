@@ -1,28 +1,18 @@
-#![allow(unused)]
+#![allow(dead_code)]
+
+// Import local crates
 use perf_macro::performance_log;
 use utils::get_cwd;
 
-mod logic;
+// Import from within the crate
 mod modules;
 
-use modules::assets::{Owner, Position};
+// External imports
 use polars::prelude::*;
 
 #[performance_log]
 fn main() {
     println!("");
-    let mut dani = Owner::new(1, "Dani".to_string());
-    let kepa = Owner::new(2, "Kepa".to_string());
-    let gorka = Owner::new(3, "Gorka".to_string());
-
-    println!("{:?}", dani);
-    println!("{:?}", kepa);
-    println!("{:?}", gorka);
-
-    dani.add_asset(1);
-    dani.add_assets(vec![3, 5]);
-
-    println!("{:?}", dani);
 
     // Get the current working directory (CWD) where the program is run from
     let cwd = get_cwd();
@@ -38,9 +28,5 @@ fn main() {
         .expect("Failed to finish reading CSV");
 
     // Print the DataFrame
-    //println!("{:?}", shares_dani);
-
-    let positions_dani = Position::new("AAPL".to_string(), 1, shares_dani);
-
-    println!("{:?}", positions_dani)
+    println!("{:?}", shares_dani);
 }
