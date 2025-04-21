@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
-use modules::owners;
 // Import local crates
+use modules::owners;
 use perf_macro::performance_log;
 use utils::get_cwd;
 
@@ -32,10 +32,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         None,
     );
 
-    modules::owners::Owner::create_owner(&db, &dani);
+    // unwrap allows you to process its output, ok just works when no Err is returned.
+    owners::Owner::create_owner(&db, &dani).await.ok();
 
-    let owners = modules::owners::Owner::get_all_owners(&db);
+    let owners = owners::Owner::get_all_owners(&db);
 
+    println!("Database owners:");
     println!("{:?}", owners.await.unwrap());
 
     // Get the current working directory (CWD) where the program is run from
@@ -52,6 +54,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .expect("Failed to finish reading CSV");
 
     // Print the DataFrame
-    println!("{:?}", shares_dani);
+    // println!("{:?}", shares_dani);
     Ok(())
 }
