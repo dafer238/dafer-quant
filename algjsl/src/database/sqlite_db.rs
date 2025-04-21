@@ -24,13 +24,13 @@ impl Database {
             .execute(&*self.pool)
             .await?;
 
-        // Create Owners table
+        // Create Owners table (UUID as primary key)
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS owners (
-                id TEXT PRIMARY KEY,
-                username TEXT NOT NULL,
-                email TEXT NOT NULL,
+                uuid TEXT PRIMARY KEY,
+                username TEXT UNIQUE NOT NULL,
+                email TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL,
                 salt TEXT NOT NULL,
                 created_at TEXT NOT NULL,
@@ -44,12 +44,12 @@ impl Database {
         .execute(&*self.pool)
         .await?;
 
-        // Create Assets table
+        // Create Assets table (ISIN as primary key)
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS assets (
-                id TEXT PRIMARY KEY,
-                isin TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                isin TEXT UNIQUE NOT NULL,
                 short_name TEXT NOT NULL,
                 name TEXT NOT NULL,
                 description TEXT NOT NULL,
@@ -61,17 +61,17 @@ impl Database {
         .execute(&*self.pool)
         .await?;
 
-        // Create Positions table
+        // Create Positions table (autoincrementing id)
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS positions (
-                id TEXT PRIMARY KEY,
-                owner_id TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                owner_uuid TEXT NOT NULL,
                 asset_id TEXT NOT NULL,
                 status TEXT NOT NULL,
                 opened_at TEXT NOT NULL,
                 closed_at TEXT,
-                FOREIGN KEY (owner_id) REFERENCES owners(id),
+                FOREIGN KEY (owner_uuid) REFERENCES owners(uuid),
                 FOREIGN KEY (asset_id) REFERENCES assets(id)
             );
         "#,
@@ -79,19 +79,19 @@ impl Database {
         .execute(&*self.pool)
         .await?;
 
-        // Create Transactions table
+        // Create Transactions table (autoincrementing id)
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS transactions (
-                id TEXT PRIMARY KEY,
-                position_id TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position_id INTEGER NOT NULL,
                 transaction_type TEXT NOT NULL,
                 datetime TEXT NOT NULL,
                 shares REAL NOT NULL,
                 price REAL NOT NULL,
                 fees REAL NOT NULL,
                 notes TEXT,
-                transfer_id TEXT,
+                transfer_id INTEGER,
                 FOREIGN KEY (position_id) REFERENCES positions(id),
                 FOREIGN KEY (transfer_id) REFERENCES transfers(id)
             );
@@ -100,13 +100,13 @@ impl Database {
         .execute(&*self.pool)
         .await?;
 
-        // Create Transfers table
+        // Create Transfers table (autoincrementing id)
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS transfers (
-                id TEXT PRIMARY KEY,
-                from_transaction_id TEXT NOT NULL,
-                to_transaction_id TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                from_transaction_id INTEGER NOT NULL,
+                to_transaction_id INTEGER NOT NULL,
                 reason TEXT NOT NULL,
                 datetime TEXT NOT NULL,
                 notes TEXT,

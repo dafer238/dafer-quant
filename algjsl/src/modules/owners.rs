@@ -7,10 +7,14 @@ use std::fmt;
 use std::str::FromStr;
 use uuid::Uuid;
 
+use crate::modules::errors;
+
+use super::errors::JSLError;
+
 /// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Owner {
-    pub id: Uuid,                       // Unique identifier for the owner
+    pub uuid: Uuid,                     // Unique identifier for the owner
     pub username: String,               // Username of the Owner
     pub email: String,                  // Email of the Owner
     pub password_hash: String,          // Stored password hash
@@ -111,7 +115,7 @@ impl Owner {
         let now = Utc::now();
 
         Owner {
-            id: Uuid::new_v4(),
+            uuid: Uuid::new_v4(),
             username,
             email,
             password_hash,
@@ -128,13 +132,13 @@ impl Owner {
             }),
         }
     }
-    pub async fn get_owner_by_id(db: &Database, id: Uuid) -> Result<Owner, sqlx::Error> {
-        let id_str = id.to_string();
+    pub async fn get_owner_by_uuid(db: &Database, uuid: Uuid) -> Result<Owner, sqlx::Error> {
+        let uuid_str = uuid.to_string();
         let row = sqlx::query!(
             r#"
-            SELECT * FROM owners WHERE id = ?
+            SELECT * FROM owners WHERE uuid = ?
             "#,
-            id_str,
+            uuid_str,
         )
         .fetch_one(&*db.pool)
         .await?;
@@ -143,8 +147,8 @@ impl Owner {
             serde_json::from_str(&row.preferences).map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
 
         Ok(Owner {
-            id: Uuid::parse_str(
-                row.id
+            uuid: Uuid::parse_str(
+                row.uuid
                     .as_ref()
                     .ok_or(sqlx::Error::ColumnNotFound("id".into()))?,
             )
@@ -181,8 +185,8 @@ impl Owner {
             let preferences: UserPreferences = serde_json::from_str(&row.preferences)
                 .map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
             owners.push(Owner {
-                id: Uuid::parse_str(
-                    row.id
+                uuid: Uuid::parse_str(
+                    row.uuid
                         .as_ref()
                         .ok_or(sqlx::Error::ColumnNotFound("id".into()))?,
                 )
@@ -207,8 +211,8 @@ impl Owner {
         Ok(owners)
     }
 
-    pub async fn create_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
-        let id_str = owner.id.to_string();
+    pub async fn create_owner(db: &Database, owner: &Owner) -> Result<(), JSLError> {
+        let uuid_str = owner.uuid.to_string();
         let created_at_str = owner.created_at.to_rfc3339();
         let last_connection_str = owner.last_connection.to_rfc3339();
         let usergroup_str = owner.usergroup.to_string();
@@ -216,15 +220,15 @@ impl Owner {
             .map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
         let online_i32 = owner.online as i32;
 
-        sqlx::query!(
+        let res = sqlx::query!(
             r#"
             INSERT INTO owners (
-                id, username, email, password_hash, salt,
+                uuid, username, email, password_hash, salt,
                 created_at, last_connection, online,
                 usergroup, preferences
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             "#,
-            id_str,
+            uuid_str,
             owner.username,
             owner.email,
             owner.password_hash,
@@ -236,13 +240,19 @@ impl Owner {
             preferences_json
         )
         .execute(&*db.pool)
-        .await?;
+        .await;
 
-        Ok(())
+        match res {
+            Ok(_) => Ok(()),
+            Err(sqlx::Error::Database(e)) if e.message().contains("UNIQUE constraint failed") => {
+                Err(JSLError::UsernameOrEmailTaken)
+            }
+            Err(e) => Err(JSLError::Db(e)),
+        }
     }
 
     pub async fn update_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
-        let id_str = owner.id.to_string();
+        let uuid_str = owner.uuid.to_string();
         let created_at_str = owner.created_at.to_rfc3339();
         let last_connection_str = owner.last_connection.to_rfc3339();
         let usergroup_str = owner.usergroup.to_string();
@@ -256,7 +266,7 @@ impl Owner {
             SET username = ?, email = ?, password_hash = ?, salt = ?,
                 created_at = ?, last_connection = ?, online = ?,
                 usergroup = ?, preferences = ?
-            WHERE id = ?
+            WHERE uuid = ?
             "#,
             owner.username,
             owner.email,
@@ -267,7 +277,7 @@ impl Owner {
             online_i32,
             usergroup_str,
             preferences_json,
-            id_str
+            uuid_str
         )
         .execute(&*db.pool)
         .await?;
@@ -275,14 +285,14 @@ impl Owner {
         Ok(())
     }
 
-    pub async fn delete_owner(db: &Database, id: Uuid) -> Result<(), sqlx::Error> {
-        let id_str = id.to_string();
+    pub async fn delete_owner(db: &Database, uuid: Uuid) -> Result<(), sqlx::Error> {
+        let uuid_str = uuid.to_string();
 
         sqlx::query!(
             r#"
-            DELETE FROM owners WHERE id = ?
+            DELETE FROM owners WHERE uuid = ?
             "#,
-            id_str
+            uuid_str
         )
         .execute(&*db.pool)
         .await?;
