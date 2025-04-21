@@ -1,18 +1,42 @@
 #![allow(dead_code)]
 
+use modules::owners;
 // Import local crates
 use perf_macro::performance_log;
 use utils::get_cwd;
 
 // Import from within the crate
+mod database;
 mod modules;
 
 // External imports
+use crate::database::sqlite_db::Database;
 use polars::prelude::*;
 
+#[tokio::main]
 #[performance_log]
-fn main() {
-    println!("");
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Load .env vars
+    dotenvy::dotenv()?;
+    let db_url = std::env::var("DATABASE_URL")?;
+
+    // Initialize the database
+    let db = Database::new(&db_url).await?;
+    db.init_db().await?;
+
+    let dani = modules::owners::Owner::new(
+        "dafer".to_string(),
+        "dani@gmail.com".to_string(),
+        "123abc".to_string(),
+        Some(modules::owners::UserGroup::Trader),
+        None,
+    );
+
+    modules::owners::Owner::create_owner(&db, &dani);
+
+    let owners = modules::owners::Owner::get_all_owners(&db);
+
+    println!("{:?}", owners.await.unwrap());
 
     // Get the current working directory (CWD) where the program is run from
     let cwd = get_cwd();
@@ -29,4 +53,5 @@ fn main() {
 
     // Print the DataFrame
     println!("{:?}", shares_dani);
+    Ok(())
 }
