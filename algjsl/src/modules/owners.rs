@@ -1,7 +1,24 @@
-// use argon2::{self, Config, ThreadMode, Variant, Version};
+use crate::database::sqlite_db::Database;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use std::fmt;
+use std::str::FromStr;
 use uuid::Uuid;
+
+/// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Owner {
+    pub id: Uuid,                       // Unique identifier for the owner
+    pub username: String,               // Username of the Owner
+    pub email: String,                  // Email of the Owner
+    pub password_hash: String,          // Stored password hash
+    pub salt: String,                   // Unique salt used for this password
+    pub created_at: DateTime<Utc>,      // Datetime of account creation
+    pub last_connection: DateTime<Utc>, // Datetime of the last connection
+    pub online: bool,                   // Bool is the user connected
+    pub usergroup: UserGroup,           // Usergroup of the Owner
+    pub preferences: UserPreferences,   // Preferences of the user
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum UserGroup {
@@ -25,97 +42,178 @@ pub enum Theme {
     Dark,
 }
 
-/// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Owner {
-    pub id: Uuid,                       // Unique identifier for the owner
-    pub username: String,               // Username of the Owner
-    pub email: String,                  // Email of the Owner
-    pub password_hash: String,          // Stored password hash
-    pub salt: String,                   // Unique salt used for this password
-    pub created_at: DateTime<Utc>,      // Datetime of account creation
-    pub last_connection: DateTime<Utc>, // Datetime of the last connection
-    pub online: bool,                   // Bool is the user connected
-    pub usergroup: UserGroup,           // Usergroup of the Owner
-    pub preferences: UserPreferences,   // Preferences of the user
+impl fmt::Display for UserGroup {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let as_str = match self {
+            UserGroup::Admin => "Admin",
+            UserGroup::Trader => "Trader",
+            UserGroup::Institution => "Institution",
+            UserGroup::Viewer => "Viewer",
+        };
+        write!(f, "{}", as_str)
+    }
 }
 
-// FIXME: ALL BELOW AND IMPORTS TO FIX
+impl fmt::Display for Theme {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let as_str = match self {
+            Theme::Light => "Light",
+            Theme::Dark => "Dark",
+        };
+        write!(f, "{}", as_str)
+    }
+}
+
+impl FromStr for UserGroup {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "Admin" => Ok(UserGroup::Admin),
+            "Trader" => Ok(UserGroup::Trader),
+            "Institution" => Ok(UserGroup::Institution),
+            "Viewer" => Ok(UserGroup::Viewer),
+            _ => Err(()),
+        }
+    }
+}
+
+impl FromStr for Theme {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "Light" => Ok(Theme::Light),
+            "Dark" => Ok(Theme::Dark),
+            _ => Err(()),
+        }
+    }
+}
 
 impl Owner {
-    // /// Implementation to create a new `Owner`, username and id shall be provided.
-    // /// `id` (u32): Provided by the DB, incremental non-repeating.
-    // /// `unique_id` (String): Automatically generated uuid unique string.
-    // /// `username` (String): Provided by the username account creation.
-    // /// `assets_id` (Vec<u32>): Vector containing the id of the assets possessed by the owner.
-    // // Create a new owner with a hashed password
-    // // Create a new owner with a hashed password
-    // pub fn new(
-    //     username: String,
-    //     email: String,
-    //     plain_password: &str,
-    //     usergroup: UserGroup,
-    //     preferences: UserPreferences,
-    // ) -> Result<Self, argon2::Error> {
-    //     // Generate a random salt
-    //     let mut salt = [0u8; 16];
-    //     OsRng.fill_bytes(&mut salt);
-    //     let salt_str = base64::encode(&salt);
-    //
-    //     // Hash the password
-    //     let password_hash = Self::hash_password(plain_password, &salt_str)?;
-    //
-    //     let now = Utc::now();
-    //
-    //     Ok(Self {
-    //         id: Uuid::new_v4(),
-    //         username,
-    //         email,
-    //         password_hash,
-    //         salt: salt_str,
-    //         created_at: now,
-    //         last_connection: now,
-    //         online: false,
-    //         usergroup,
-    //         preferences,
-    //     })
-    // }
+    pub async fn create_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
+        let preferences_json = serde_json::to_string(&owner.preferences)?;
 
-    // Hash a password using Argon2
-    // fn hash_password(password: &str, salt: &str) -> Result<String, argon2::Error> {
-    //     let config = Config {
-    //         variant: Variant::Argon2id,  // Recommended variant
-    //         version: Version::Version13, // Latest version
-    //         mem_cost: 65536,             // Memory cost (higher is more secure but slower)
-    //         time_cost: 4,                // Iterations (higher is more secure but slower)
-    //         lanes: 4,                    // Parallelism factor
-    //         thread_mode: ThreadMode::Parallel,
-    //         secret: &[],     // Optional secret key
-    //         ad: &[],         // Associated data
-    //         hash_length: 32, // Output hash length
-    //     };
-    //
-    //     let hash = argon2::hash_encoded(password.as_bytes(), salt.as_bytes(), &config)?;
-    //
-    //     Ok(hash)
-    // }
+        sqlx::query!(
+            r#"
+            INSERT INTO owners (
+                id, username, email, password_hash, salt,
+                created_at, last_connection, online,
+                usergroup, preferences
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            "#,
+            owner.id.to_string(),
+            owner.username,
+            owner.email,
+            owner.password_hash,
+            owner.salt,
+            owner.created_at.to_rfc3339(),
+            owner.last_connection.to_rfc3339(),
+            owner.online as i32,
+            owner.usergroup.to_string(),
+            preferences_json
+        )
+        .execute(&*db.pool)
+        .await?;
 
-    // Verify a password against the stored hash
-    // pub fn verify_password(&self, password: &str) -> Result<bool, argon2::Error> {
-    //     argon2::verify_encoded(&self.password_hash, password.as_bytes())
-    // }
+        Ok(())
+    }
 
-    // Update the password
-    // pub fn update_password(&mut self, new_password: &str) -> Result<(), argon2::Error> {
-    //     // Generate a new salt for the password change
-    //     let mut salt = [0u8; 16];
-    //     OsRng.fill_bytes(&mut salt);
-    //     let salt_str = base64::encode(&salt);
-    //
-    //     // Hash the new password
-    //     self.password_hash = Self::hash_password(new_password, &salt_str)?;
-    //     self.salt = salt_str;
-    //
-    //     Ok(())
-    // }
+    pub async fn get_owner_by_id(db: &Database, id: Uuid) -> Result<Owner, sqlx::Error> {
+        let row = sqlx::query!(
+            r#"
+            SELECT * FROM owners WHERE id = ?
+            "#,
+            id.to_string()
+        )
+        .fetch_one(&*db.pool)
+        .await?;
+
+        let preferences: UserPreferences = serde_json::from_str(&row.preferences)?;
+        Ok(Owner {
+            id: Uuid::parse_str(&row.id)?,
+            username: row.username,
+            email: row.email,
+            password_hash: row.password_hash,
+            salt: row.salt,
+            created_at: DateTime::parse_from_rfc3339(&row.created_at)?.with_timezone(&Utc),
+            last_connection: DateTime::parse_from_rfc3339(&row.last_connection)?
+                .with_timezone(&Utc),
+            online: row.online != 0,
+            usergroup: UserGroup::from_str(&row.usergroup),
+            preferences,
+        })
+    }
+
+    pub async fn get_all_owners(db: &Database) -> Result<Vec<Owner>, sqlx::Error> {
+        let rows = sqlx::query!(
+            r#"
+            SELECT * FROM owners
+            "#
+        )
+        .fetch_all(&*db.pool)
+        .await?;
+
+        let mut owners = Vec::new();
+
+        for row in rows {
+            let preferences: UserPreferences = serde_json::from_str(&row.preferences)?;
+            owners.push(Owner {
+                id: Uuid::parse_str(&row.id)?,
+                username: row.username,
+                email: row.email,
+                password_hash: row.password_hash,
+                salt: row.salt,
+                created_at: DateTime::parse_from_rfc3339(&row.created_at)?.with_timezone(&Utc),
+                last_connection: DateTime::parse_from_rfc3339(&row.last_connection)?
+                    .with_timezone(&Utc),
+                online: row.online != 0,
+                usergroup: UserGroup::from_str(&row.usergroup),
+                preferences,
+            });
+        }
+
+        Ok(owners)
+    }
+
+    pub async fn update_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
+        let preferences_json = serde_json::to_string(&owner.preferences)?;
+
+        sqlx::query!(
+            r#"
+            UPDATE owners
+            SET username = ?, email = ?, password_hash = ?, salt = ?,
+                created_at = ?, last_connection = ?, online = ?,
+                usergroup = ?, preferences = ?
+            WHERE id = ?
+            "#,
+            owner.username,
+            owner.email,
+            owner.password_hash,
+            owner.salt,
+            owner.created_at.to_rfc3339(),
+            owner.last_connection.to_rfc3339(),
+            owner.online as i32,
+            owner.usergroup.to_string(),
+            preferences_json,
+            owner.id.to_string()
+        )
+        .execute(&*db.pool)
+        .await?;
+
+        Ok(())
+    }
+
+    pub async fn delete_owner(db: &Database, id: Uuid) -> Result<(), sqlx::Error> {
+        sqlx::query!(
+            r#"
+            DELETE FROM owners WHERE id = ?
+            "#,
+            id.to_string()
+        )
+        .execute(&*db.pool)
+        .await?;
+
+        Ok(())
+    }
 }
