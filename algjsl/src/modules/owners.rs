@@ -1,4 +1,6 @@
 use crate::database::sqlite_db::Database;
+use argon2::password_hash::{SaltString, rand_core::OsRng};
+use argon2::{Argon2, PasswordHasher};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::fmt;
@@ -91,56 +93,75 @@ impl FromStr for Theme {
 }
 
 impl Owner {
-    pub async fn create_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
-        let preferences_json = serde_json::to_string(&owner.preferences)?;
+    pub fn new(
+        username: String,
+        email: String,
+        raw_password: String,
+        usergroup: Option<UserGroup>,
+        preferences: Option<UserPreferences>,
+    ) -> Self {
+        let salt = SaltString::generate(&mut OsRng);
 
-        sqlx::query!(
-            r#"
-            INSERT INTO owners (
-                id, username, email, password_hash, salt,
-                created_at, last_connection, online,
-                usergroup, preferences
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            "#,
-            owner.id.to_string(),
-            owner.username,
-            owner.email,
-            owner.password_hash,
-            owner.salt,
-            owner.created_at.to_rfc3339(),
-            owner.last_connection.to_rfc3339(),
-            owner.online as i32,
-            owner.usergroup.to_string(),
-            preferences_json
-        )
-        .execute(&*db.pool)
-        .await?;
+        let argon2 = Argon2::default();
+        let password_hash = argon2
+            .hash_password(raw_password.as_bytes(), &salt)
+            .expect("Password hashing failed")
+            .to_string();
 
-        Ok(())
+        let now = Utc::now();
+
+        Owner {
+            id: Uuid::new_v4(),
+            username,
+            email,
+            password_hash,
+            salt: salt.as_str().to_string(),
+            created_at: now,
+            last_connection: now,
+            online: false,
+            usergroup: usergroup.unwrap_or(UserGroup::Trader),
+            preferences: preferences.unwrap_or(UserPreferences {
+                language: "en".to_string(),
+                theme: Theme::Dark,
+                notifications_enabled: true,
+                cookie_consent: true,
+            }),
+        }
     }
-
     pub async fn get_owner_by_id(db: &Database, id: Uuid) -> Result<Owner, sqlx::Error> {
+        let id_str = id.to_string();
         let row = sqlx::query!(
             r#"
             SELECT * FROM owners WHERE id = ?
             "#,
-            id.to_string()
+            id_str,
         )
         .fetch_one(&*db.pool)
         .await?;
 
-        let preferences: UserPreferences = serde_json::from_str(&row.preferences)?;
+        let preferences: UserPreferences =
+            serde_json::from_str(&row.preferences).map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
+
         Ok(Owner {
-            id: Uuid::parse_str(&row.id)?,
+            id: Uuid::parse_str(
+                row.id
+                    .as_ref()
+                    .ok_or(sqlx::Error::ColumnNotFound("id".into()))?,
+            )
+            .map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
             username: row.username,
             email: row.email,
             password_hash: row.password_hash,
             salt: row.salt,
-            created_at: DateTime::parse_from_rfc3339(&row.created_at)?.with_timezone(&Utc),
-            last_connection: DateTime::parse_from_rfc3339(&row.last_connection)?
+            created_at: DateTime::parse_from_rfc3339(&row.created_at)
+                .map_err(|e| sqlx::Error::Decode(Box::new(e)))?
+                .with_timezone(&Utc),
+            last_connection: DateTime::parse_from_rfc3339(&row.last_connection)
+                .map_err(|e| sqlx::Error::Decode(Box::new(e)))?
                 .with_timezone(&Utc),
             online: row.online != 0,
-            usergroup: UserGroup::from_str(&row.usergroup),
+            usergroup: UserGroup::from_str(&row.usergroup)
+                .map_err(|_| sqlx::Error::Decode("Invalid usergroup".into()))?,
             preferences,
         })
     }
@@ -157,18 +178,28 @@ impl Owner {
         let mut owners = Vec::new();
 
         for row in rows {
-            let preferences: UserPreferences = serde_json::from_str(&row.preferences)?;
+            let preferences: UserPreferences = serde_json::from_str(&row.preferences)
+                .map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
             owners.push(Owner {
-                id: Uuid::parse_str(&row.id)?,
+                id: Uuid::parse_str(
+                    row.id
+                        .as_ref()
+                        .ok_or(sqlx::Error::ColumnNotFound("id".into()))?,
+                )
+                .map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
                 username: row.username,
                 email: row.email,
                 password_hash: row.password_hash,
                 salt: row.salt,
-                created_at: DateTime::parse_from_rfc3339(&row.created_at)?.with_timezone(&Utc),
-                last_connection: DateTime::parse_from_rfc3339(&row.last_connection)?
+                created_at: DateTime::parse_from_rfc3339(&row.created_at)
+                    .map_err(|e| sqlx::Error::Decode(Box::new(e)))?
+                    .with_timezone(&Utc),
+                last_connection: DateTime::parse_from_rfc3339(&row.last_connection)
+                    .map_err(|e| sqlx::Error::Decode(Box::new(e)))?
                     .with_timezone(&Utc),
                 online: row.online != 0,
-                usergroup: UserGroup::from_str(&row.usergroup),
+                usergroup: UserGroup::from_str(&row.usergroup)
+                    .map_err(|_| sqlx::Error::Decode("Invalid usergroup".into()))?,
                 preferences,
             });
         }
@@ -176,8 +207,48 @@ impl Owner {
         Ok(owners)
     }
 
+    pub async fn create_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
+        let id_str = owner.id.to_string();
+        let created_at_str = owner.created_at.to_rfc3339();
+        let last_connection_str = owner.last_connection.to_rfc3339();
+        let usergroup_str = owner.usergroup.to_string();
+        let preferences_json = serde_json::to_string(&owner.preferences)
+            .map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
+        let online_i32 = owner.online as i32;
+
+        sqlx::query!(
+            r#"
+            INSERT INTO owners (
+                id, username, email, password_hash, salt,
+                created_at, last_connection, online,
+                usergroup, preferences
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            "#,
+            id_str,
+            owner.username,
+            owner.email,
+            owner.password_hash,
+            owner.salt,
+            created_at_str,
+            last_connection_str,
+            online_i32,
+            usergroup_str,
+            preferences_json
+        )
+        .execute(&*db.pool)
+        .await?;
+
+        Ok(())
+    }
+
     pub async fn update_owner(db: &Database, owner: &Owner) -> Result<(), sqlx::Error> {
-        let preferences_json = serde_json::to_string(&owner.preferences)?;
+        let id_str = owner.id.to_string();
+        let created_at_str = owner.created_at.to_rfc3339();
+        let last_connection_str = owner.last_connection.to_rfc3339();
+        let usergroup_str = owner.usergroup.to_string();
+        let online_i32 = owner.online as i32;
+        let preferences_json = serde_json::to_string(&owner.preferences)
+            .map_err(|e| sqlx::Error::Decode(Box::new(e)))?;
 
         sqlx::query!(
             r#"
@@ -191,12 +262,12 @@ impl Owner {
             owner.email,
             owner.password_hash,
             owner.salt,
-            owner.created_at.to_rfc3339(),
-            owner.last_connection.to_rfc3339(),
-            owner.online as i32,
-            owner.usergroup.to_string(),
+            created_at_str,
+            last_connection_str,
+            online_i32,
+            usergroup_str,
             preferences_json,
-            owner.id.to_string()
+            id_str
         )
         .execute(&*db.pool)
         .await?;
@@ -205,11 +276,13 @@ impl Owner {
     }
 
     pub async fn delete_owner(db: &Database, id: Uuid) -> Result<(), sqlx::Error> {
+        let id_str = id.to_string();
+
         sqlx::query!(
             r#"
             DELETE FROM owners WHERE id = ?
             "#,
-            id.to_string()
+            id_str
         )
         .execute(&*db.pool)
         .await?;
