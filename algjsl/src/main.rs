@@ -3,7 +3,12 @@
 // Import local crates
 use modules::owners;
 use perf_macro::performance_log;
-use utils::get_cwd;
+use utils::{
+    get_cwd,
+    plot_candlestick,
+    // plot_line,
+    // plot_scatter
+};
 
 // Import from within the crate
 mod database;
@@ -44,14 +49,26 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cwd = get_cwd();
 
     // Construct the file path relative to the CWD
-    let file_path = cwd.join("data/input/hourly_data.csv");
+    let shares_file_path = cwd.join("data/input/hourly_data.csv");
 
     let shares_dani = CsvReadOptions::default()
         .with_has_header(true)
-        .try_into_reader_with_file_path(Some(file_path.into()))
+        .try_into_reader_with_file_path(Some(shares_file_path.into()))
         .expect("Failed to read CSV file")
         .finish()
         .expect("Failed to finish reading CSV");
+
+    println!("{:?}", shares_dani);
+
+    let hist_file_path = cwd.join("data/input/histdata_sp500.csv");
+    let df_sp500 = CsvReadOptions::default()
+        .with_has_header(true)
+        .try_into_reader_with_file_path(Some(hist_file_path.into()))
+        .expect("Failed to read CSV file")
+        .finish()
+        .expect("Failed to finish reading CSV");
+
+    let _ = plot_candlestick(&df_sp500, "Test plot");
 
     // Print the DataFrame
     // println!("{:?}", shares_dani);
