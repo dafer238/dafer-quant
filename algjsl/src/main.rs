@@ -1,10 +1,13 @@
 #![allow(dead_code)]
 
+// External imports
+use polars::prelude::*;
+
 // Import local crates
-use modules::owners;
+use crate::database::sqlite_db::Database;
+use crate::modules::owners;
 use perf_macro::performance_log;
-use utils::{
-    get_cwd,
+use utils::plotting::hist_plot::{
     plot_candlestick,
     // plot_line,
     // plot_scatter
@@ -13,10 +16,6 @@ use utils::{
 // Import from within the crate
 mod database;
 mod modules;
-
-// External imports
-use crate::database::sqlite_db::Database;
-use polars::prelude::*;
 
 #[tokio::main]
 #[performance_log]
@@ -46,7 +45,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{:?}", owners.await.unwrap());
 
     // Get the current working directory (CWD) where the program is run from
-    let cwd = get_cwd();
+    let cwd = utils::general::get_cwd();
 
     // Construct the file path relative to the CWD
     let shares_file_path = cwd.join("data/input/hourly_data.csv");
