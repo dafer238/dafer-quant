@@ -6,5 +6,7 @@ edition = "2024"
 [dependencies]
 
 # Workspace shared dependancies
+polars.workspace = true
 
 # Crate specific dependancies
+plotly = "0.12.1"

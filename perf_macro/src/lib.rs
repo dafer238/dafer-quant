@@ -39,7 +39,7 @@ pub fn performance_log(_attr: TokenStream, item: TokenStream) -> TokenStream {
             };
 
             // In the macro-expanded code (or inside the macro-generated code block)
-            let mut log_path = ::utils::get_cwd();
+            let mut log_path = ::utils::general::get_cwd();
             log_path.push("logs");
 
             // Now push the file name

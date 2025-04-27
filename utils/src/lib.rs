@@ -1,6 +1,5 @@
-use std::env;
-use std::path::PathBuf;
+// General auxilliary functionalities
+pub mod general;
 
-pub fn get_cwd() -> PathBuf {
-    env::current_dir().expect("Failed to get current working directory")
-}
+// Plotting capabilities
+pub mod plotting;
