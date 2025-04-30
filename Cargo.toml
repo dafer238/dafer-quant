@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["algjsl", "perf_macro", "utils"]
+members = ["algjsl", "perf_macro", "utils", "jsloxus"]
 
 [workspace.dependencies]
 
@@ -18,4 +18,14 @@ debug = true          # Keep debug info
 split-debuginfo = "unpacked"  # Speeds up linking on some systems
 incremental = true    # Enable incremental compilation
 codegen-units = 16    # Parallelizes compilation units
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"
 
