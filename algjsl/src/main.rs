@@ -12,6 +12,7 @@ mod database;
 mod modules;
 
 use app_config::AppConfig;
+
 use perf_macro::performance_log;
 use utils::plotting::hist_plot::{
     plot_candlestick,
