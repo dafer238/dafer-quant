@@ -1,0 +1,22 @@
+[package]
+name = "jsloxus"
+version = "0.1.0"
+authors = ["dafer-wsl-sener <dafernandezperez@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# Local crates
+perf_macro = {path="../perf_macro"} # Macro to measure performance
+utils = {path="../utils"}           # Utils common to the project
+algjsl = {path="../algjsl"}
+
+# External crates
+dioxus = { version = "0.6.0", features = [] }
+
+[features]
+default = ["web"]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]
