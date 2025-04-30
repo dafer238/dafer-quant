@@ -6,16 +6,16 @@ use polars::prelude::*;
 // Import local crates
 use crate::database::sqlite_db::Database;
 use crate::modules::owners;
+// Import from within the crate
+mod database;
+mod modules;
+
 use perf_macro::performance_log;
 use utils::plotting::hist_plot::{
     plot_candlestick,
     // plot_line,
     // plot_scatter
 };
-
-// Import from within the crate
-mod database;
-mod modules;
 
 #[tokio::main]
 #[performance_log]
