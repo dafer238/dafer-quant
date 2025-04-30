@@ -74,7 +74,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .finish()
         .expect("Failed to finish reading CSV");
 
-    let _ = plot_candlestick(&df_sp500, "Test plot");
+    // Plot a dataframe with proper candlestick information
+    // let _ = plot_candlestick(&df_sp500, "Test plot");
 
     Ok(())
 }
