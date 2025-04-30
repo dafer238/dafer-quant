@@ -1,4 +1,3 @@
-use anyhow::Result;
 use serde::Deserialize;
 use std::env;
 
@@ -20,15 +19,15 @@ pub enum Environment {
 
 impl AppConfig {
     /// Loads the application configuration from environment variables and .env file
-    pub fn load() -> Result<Self> {
+    pub fn load() -> Result<Self, Box<dyn std::error::Error>> {
         // Load .env file if it exists
-        dotenv::dotenv().ok();
+        dotenvy::dotenv().ok();
 
-        let port = env::var("PORT")
+        let port = std::env::var("PORT")
             .unwrap_or_else(|_| "3000".to_string())
             .parse()?;
 
-        let environment = match env::var("ENVIRONMENT")
+        let environment = match std::env::var("ENVIRONMENT")
             .unwrap_or_else(|_| "development".to_string())
             .to_lowercase()
             .as_str()
@@ -39,7 +38,7 @@ impl AppConfig {
         };
 
         let database_url = env::var("DATABASE_URL")
-            .unwrap_or_else(|_| "postgres://localhost/my_app".to_string());
+            .unwrap_or_else(|_| "sqlite://data/database/db.sqlite".to_string());
 
         Ok(Self {
             port,

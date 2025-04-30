@@ -6,6 +6,12 @@ use polars::prelude::*;
 // Import local crates
 use crate::database::sqlite_db::Database;
 use crate::modules::owners;
+// Import from within the crate
+mod app_config;
+mod database;
+mod modules;
+
+use app_config::AppConfig;
 use perf_macro::performance_log;
 use utils::plotting::hist_plot::{
     plot_candlestick,
@@ -13,13 +19,13 @@ use utils::plotting::hist_plot::{
     // plot_scatter
 };
 
-// Import from within the crate
-mod database;
-mod modules;
-
 #[tokio::main]
 #[performance_log]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Load configuration
+    let config = AppConfig::load()?;
+    println!("Configuration loaded successfully. Config: {:.?}", config);
+
     // Load .env vars
     dotenvy::dotenv()?;
     let db_url = std::env::var("DATABASE_URL")?;
@@ -48,16 +54,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cwd = utils::general::get_cwd();
 
     // Construct the file path relative to the CWD
-    let shares_file_path = cwd.join("data/input/hourly_data.csv");
+    let movements_file_path = cwd.join("data/input/movements_dafer_UTF8.csv");
 
-    let shares_dani = CsvReadOptions::default()
+    let movements_dani = CsvReadOptions::default()
         .with_has_header(true)
-        .try_into_reader_with_file_path(Some(shares_file_path.into()))
+        .try_into_reader_with_file_path(Some(movements_file_path.into()))
         .expect("Failed to read CSV file")
         .finish()
         .expect("Failed to finish reading CSV");
 
-    println!("{:?}", shares_dani);
+    println!("{:?}", movements_dani);
 
     let hist_file_path = cwd.join("data/input/histdata_sp500.csv");
     let df_sp500 = CsvReadOptions::default()
@@ -69,7 +75,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let _ = plot_candlestick(&df_sp500, "Test plot");
 
-    // Print the DataFrame
-    // println!("{:?}", shares_dani);
     Ok(())
 }
