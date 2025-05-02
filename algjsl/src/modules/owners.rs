@@ -7,9 +7,7 @@ use std::fmt;
 use std::str::FromStr;
 use uuid::Uuid;
 
-use crate::modules::errors;
-
-use super::errors::JSLError;
+use crate::errors::JSLError;
 
 /// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,4 +1,3 @@
-use algjsl;
 use dioxus::prelude::*;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
