@@ -95,7 +95,7 @@ pub fn plot_scatter(df: &DataFrame, title: &str) -> Result<(), PolarsError> {
 
     let mut plot = Plot::new();
     plot.add_trace(trace);
-    plot.set_layout(plotly::Layout::new().title(Title::new()));
+    plot.set_layout(Layout::new().title(Title::with_text(title)));
 
     plot.show();
 
@@ -120,7 +120,7 @@ pub fn plot_line(df: &DataFrame, title: &str) -> Result<(), PolarsError> {
 
     let mut plot = Plot::new();
     plot.add_trace(trace);
-    plot.set_layout(plotly::Layout::new().title(Title::new()));
+    plot.set_layout(Layout::new().title(Title::with_text(title)));
 
     plot.show();
 
