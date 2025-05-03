@@ -8,18 +8,26 @@ edition = "2021"
 
 # Local crates
 perf_macro = {path="../perf_macro"} # Macro to measure performance
-utils = {path="../utils"}           # Utils common to the project
+# utils = {path="../utils"}           # Utils common to the project
 algjsl = {path="../algjsl"}
 
 # External crates
 dioxus = { version = "0.6.0", features = [] }
-
-# Add this features specification for the crossterm dependency
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-crossterm = "0.28"
 
 [features]
 default = ["web"]
 web = ["dioxus/web"]
 desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]
+
+[profile]
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"

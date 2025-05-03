@@ -3,7 +3,7 @@ resolver = "3"
 members = ["algjsl", 
            "perf_macro", 
            "utils", 
-           # "jsloxus"
+           "jsloxus"
           ]
 
 [workspace.dependencies]
@@ -32,4 +32,3 @@ inherits = "dev"
 
 [profile.android-dev]
 inherits = "dev"
-
