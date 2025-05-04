@@ -1,3 +1,5 @@
+// ./aljsl/src/modules/owners.rs
+
 use crate::database::sqlite_db::Database;
 use argon2::password_hash::{SaltString, rand_core::OsRng};
 use argon2::{Argon2, PasswordHasher};
@@ -7,9 +9,7 @@ use std::fmt;
 use std::str::FromStr;
 use uuid::Uuid;
 
-use crate::modules::errors;
-
-use super::errors::JSLError;
+use crate::errors::JSLError;
 
 /// Owner of an asset (e.g., person holding a position (stock, fund, etc.)).
 #[derive(Debug, Clone, Serialize, Deserialize)]

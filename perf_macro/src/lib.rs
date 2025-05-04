@@ -1,3 +1,5 @@
+// ./perf_macro/src/lib.rs
+
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{ItemFn, parse_macro_input};
@@ -39,7 +41,7 @@ pub fn performance_log(_attr: TokenStream, item: TokenStream) -> TokenStream {
             };
 
             // In the macro-expanded code (or inside the macro-generated code block)
-            let mut log_path = ::utils::general::get_cwd();
+            let mut log_path = ::utils::general::get_root_wd();
             log_path.push("logs");
 
             // Now push the file name

@@ -1,6 +1,9 @@
+# ./perf_macro/Cargo.toml
+
 [package]
 name = "perf_macro"
 version = "0.1.0"
+authors = ["dafer <dafernandezperez@gmail.com>"]
 edition = "2024"
 
 [lib]

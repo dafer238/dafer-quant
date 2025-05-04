@@ -1,6 +1,9 @@
+# ./utils/Cargo.toml
+
 [package]
 name = "utils"
 version = "0.1.0"
+authors = ["dafer <dafernandezperez@gmail.com>"]
 edition = "2024"
 
 [dependencies]
