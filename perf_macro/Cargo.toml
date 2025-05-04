@@ -1,3 +1,5 @@
+# ./perf_macro/Cargo.toml
+
 [package]
 name = "perf_macro"
 version = "0.1.0"

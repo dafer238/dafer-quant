@@ -1,14 +1,12 @@
+// ./algjsl/src/main.rs
+
 // External imports
 
 // Import local crates
 
 // Import from within the crate
-pub mod app_config;
-pub mod database;
-pub mod errors;
-pub mod modules;
 
-use app_config::AppConfig;
+use algjsl::app_config::AppConfig;
 use perf_macro::performance_log;
 
 #[tokio::main]
