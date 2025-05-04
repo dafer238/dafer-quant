@@ -1,7 +1,9 @@
+// ./algjsl/tests/data_reading_test.rs
+
 use polars::prelude::*;
 
 #[test]
-fn test_csv_loading_runs_successfully() {
+fn test_csv_movements_loading() {
     // Get the root working directory
     let root_wd = utils::general::get_root_wd();
 
@@ -19,7 +21,11 @@ fn test_csv_loading_runs_successfully() {
         movements_dani.height() > 0,
         "DataFrame 'movements_dani' is empty"
     );
-
+}
+#[test]
+fn test_csv_hist_loading() {
+    // Get the root working directory
+    let root_wd = utils::general::get_root_wd();
     // Build path for second CSV
     let hist_file_path = root_wd.join("data/input/histdata_sp500.csv");
 

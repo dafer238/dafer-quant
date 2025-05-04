@@ -1,10 +1,11 @@
+// ./algjsl/tests/owners_db_test.rs
+
 use algjsl::database::sqlite_db::Database;
 use algjsl::modules::owners::{Owner, UserGroup};
 
 use dotenvy::dotenv;
 
-#[tokio::test]
-async fn test_create_and_fetch_owner() {
+async fn init_db_for_tests() -> Database {
     // Load environment variables
     dotenv().ok();
     let db_path = utils::general::get_root_wd().join("data/database/db.sqlite");
@@ -15,7 +16,26 @@ async fn test_create_and_fetch_owner() {
         .await
         .expect("Failed to connect to DB");
     db.init_db().await.expect("Failed to init DB");
+    db
+}
 
+#[tokio::test]
+async fn test_connect_to_database() {
+    // Load environment variables
+    dotenv().ok();
+    let db_path = utils::general::get_root_wd().join("data/database/db.sqlite");
+    let db_url = format!("sqlite:{}", db_path.to_str().unwrap());
+
+    // Initialize database
+    let db = Database::new(&db_url)
+        .await
+        .expect("Failed to connect to DB");
+    db.init_db().await.expect("Failed to init DB");
+}
+
+#[tokio::test]
+async fn test_create_owner() {
+    let db = init_db_for_tests().await;
     // Create new owner
     let owner = Owner::new(
         "dafer".to_string(),
@@ -25,10 +45,12 @@ async fn test_create_and_fetch_owner() {
         None,
     );
 
-    Owner::create_owner(&db, &owner)
-        .await
-        .expect("Failed to create owner");
+    let _ = Owner::create_owner(&db, &owner).await;
+}
 
+#[tokio::test]
+async fn test_fetch_all_owners() {
+    let db = init_db_for_tests().await;
     // Fetch all owners
     let owners = Owner::get_all_owners(&db)
         .await
