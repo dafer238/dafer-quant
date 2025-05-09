@@ -1,46 +1,88 @@
-/* App-wide styling */
+/* ========================
+   Global Variables
+======================== */
+:root {
+    --bg1: #0f1116;
+    --bg2: #424242;
+    --text-color: orange;
+    --link-color: #ffffff;
+    --border-color: white;
+}
+
+/* ========================
+   Base Styles
+======================== */
 body {
-    background-color: #0f1116;
-    color: #ffffff;
+    background-color: var(--bg1);
+    color: var(--text-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 20px;
 }
 
-#hero {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+/* ========================
+   Header Styles
+======================== */
+#header {
+    max-width: 1200px;
 }
 
+#header_logo {
+    max-width: 40px;
+    margin: 0px 5px;
+}
+
+
+/* ========================
+   Main Menu Styles
+======================== */
+#main_menu {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    column-gap: 5px;
+}
+
+#main_menu a {
+    color: var(--link-color);
+    text-decoration: none;
+    margin: 0px 0px;
+    padding: 2px 15px;
+    border-radius: 10px;
+}
+
+#main_menu a:hover {
+    background-color: var(--bg2);
+    cursor: pointer;
+}
+
+/* ========================
+   Links Section Styles
+======================== */
 #links {
-    width: 400px;
+    width: fit-content;
+    margin: 0px 0px;
+    padding: 10px 10px;
     text-align: left;
-    font-size: x-large;
+    font-size: large;
     color: white;
     display: flex;
     flex-direction: column;
 }
 
 #links a {
-    color: white;
+    color: var(--link-color);
     text-decoration: none;
-    margin-top: 20px;
-    margin: 10px 0px;
-    border: white 1px solid;
-    border-radius: 5px;
-    padding: 10px;
+    margin: 3px 0px;
+    border: var(--border-color) 1px solid;
+    border-radius: 3px;
+    padding: 1px 5px;
 }
 
 #links a:hover {
-    background-color: #1f1f1f;
+    background-color: #424242;
     cursor: pointer;
 }
-
-#header {
-    max-width: 1200px;
-}
-
-
 
