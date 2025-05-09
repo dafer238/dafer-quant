@@ -3,7 +3,8 @@
 ======================== */
 :root {
     --bg1: #0f1116;
-    --bg2: #424242;
+    --bghl1: #424242;
+    --bg2: #202020;
     --text-color: orange;
     --link-color: #ffffff;
     --border-color: white;
@@ -32,6 +33,11 @@ body {
     margin: 0px 5px;
 }
 
+#theme_icon {
+    max-width: 30px;
+    margin: 0px 5px;
+}
+
 
 /* ========================
    Main Menu Styles
@@ -40,9 +46,29 @@ body {
     margin: 0;
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: space-between;
     align-items: center;
     column-gap: 5px;
+}
+
+#left_menu,
+#right_menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Space between items */
+}
+
+#left_menu {
+    flex: 1;
+    /* Takes available space */
+    justify-content: flex-start;
+}
+
+#right_menu {
+    flex: 1;
+    /* Takes available space */
+    justify-content: flex-end;
 }
 
 #main_menu a {
@@ -54,7 +80,7 @@ body {
 }
 
 #main_menu a:hover {
-    background-color: var(--bg2);
+    background-color: var(--bghl1);
     cursor: pointer;
 }
 
@@ -86,3 +112,17 @@ body {
     cursor: pointer;
 }
 
+/* ========================
+   Footer Styles
+======================== */
+#footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--bg2);
+    color: var(--link-color);
+    text-align: left;
+}
+
+#footer_content {
+    margin: 5px 0;
+}

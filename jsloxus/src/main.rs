@@ -1,11 +1,15 @@
 // ./jsloxus/src/main.rs
 
-use dioxus::prelude::*;
+pub mod assets;
+pub mod components;
 
-const FAVICON: Asset = asset!("/assets/favicon.ico");
-const MAIN_CSS: Asset = asset!("/assets/main.css");
-const HEADER_SVG: Asset = asset!("/assets/header.svg");
-const HEADER_LOGO: Asset = asset!("/assets/header_logo.svg");
+use assets::FAVICON;
+use assets::MAIN_CSS;
+use components::footers::Footer;
+use components::headers::HeaderMenu;
+use components::modules::TestLinks;
+
+use dioxus::prelude::*;
 
 fn main() {
     dioxus::launch(App);
@@ -14,30 +18,20 @@ fn main() {
 #[component]
 fn App() -> Element {
     rsx! {
+        // Sets browser tab icon
         document::Link { rel: "icon", href: FAVICON }
+        // Sets the main styesheet
         document::Link { rel: "stylesheet", href: MAIN_CSS }
-        Hero {}
+        LandingPage {}
 
     }
 }
 
 #[component]
-pub fn Hero() -> Element {
+pub fn LandingPage() -> Element {
     rsx! {
-        div {
-            id: "main_menu",
-            img {src: HEADER_LOGO, id:"header_logo"}
-            a { href: "", "Home"}
-            a { href: "", "About"}
-        }
-        div {
-            id: "links",
-            a { href: "https://dioxuslabs.com/learn/0.6/", "Learn Dioxus" }
-            a { href: "https://dioxuslabs.com/awesome", "Awesome Dioxus" }
-            a { href: "https://github.com/dioxus-community/", "Community Libraries" }
-            a { href: "https://github.com/DioxusLabs/sdk", "Dioxus Development Kit" }
-            a { href: "https://marketplace.visualstudio.com/items?itemName=DioxusLabs.dioxus", "VSCode Extension" }
-            a { href: "https://discord.gg/XgGxMSkvUM", "Community Discord" }
-        }
+        HeaderMenu {}
+        TestLinks {}
+        Footer {}
     }
 }
