@@ -2,6 +2,7 @@
 
 use crate::assets::DARK_THEME;
 use crate::assets::HEADER_LOGO;
+use crate::assets::JSL_LOGO;
 use dioxus::prelude::*;
 
 #[component]
@@ -11,7 +12,7 @@ pub fn HeaderMenu() -> Element {
             id: "main_menu",
             div {
                 id: "left_menu",
-                a { href: "", img { src: HEADER_LOGO, id: "header_logo", alt: "Logo" }}
+                a { href: "", img { src: JSL_LOGO, id: "header_logo", alt: "Logo" }}
                 a { href: "", "Home"}
                 a { href: "", "Features"}
                 a { href: "", "About Us"}

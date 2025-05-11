@@ -2,12 +2,10 @@
 
 pub mod assets;
 pub mod components;
+pub mod pages;
 
-use assets::FAVICON;
-use assets::MAIN_CSS;
-use components::footers::Footer;
-use components::headers::HeaderMenu;
-use components::modules::TestLinks;
+use assets::*;
+use pages::LandingPage;
 
 use dioxus::prelude::*;
 
@@ -20,18 +18,19 @@ fn App() -> Element {
     rsx! {
         // Sets browser tab icon
         document::Link { rel: "icon", href: FAVICON }
-        // Sets the main styesheet
+
+        // Sets the main styesheets
+        document::Link { rel: "stylesheet", href: VARIABLES_CSS }
+        document::Link { rel: "stylesheet", href: HEADERS_CSS }
+        document::Link { rel: "stylesheet", href: FOOTERS_CSS }
+        document::Link { rel: "stylesheet", href: LINKS_CSS }
+        document::Link { rel: "stylesheet", href: MENUS_CSS }
+        document::Link { rel: "stylesheet", href: BUTTON_CSS }
+        document::Link { rel: "stylesheet", href: CARD_CSS }
+        document::Link { rel: "stylesheet", href: IMG_CSS }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
+
         LandingPage {}
 
-    }
-}
-
-#[component]
-pub fn LandingPage() -> Element {
-    rsx! {
-        HeaderMenu {}
-        TestLinks {}
-        Footer {}
     }
 }
