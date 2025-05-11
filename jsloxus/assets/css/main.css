@@ -1,0 +1,18 @@
+@import url('./variables.css');
+@import url('./footers.css');
+@import url('./headers.css');
+@import url('./links.css');
+@import url('./imgs.css');
+@import url('./components/menus.css');
+@import url('./components/buttons.css');
+@import url('./components/cards.css');
+
+/* ========================
+   Base Styles
+======================== */
+body {
+    background-color: var(--bg1);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+}

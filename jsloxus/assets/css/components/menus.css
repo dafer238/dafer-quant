@@ -1,0 +1,44 @@
+/* ========================
+   Main Menu Styles
+======================== */
+#main_menu {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 5px;
+}
+
+#left_menu,
+#right_menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Space between items */
+}
+
+#left_menu {
+    flex: 1;
+    /* Takes available space */
+    justify-content: flex-start;
+}
+
+#right_menu {
+    flex: 1;
+    /* Takes available space */
+    justify-content: flex-end;
+}
+
+#main_menu a {
+    color: var(--link-color);
+    text-decoration: none;
+    margin: 0px 0px;
+    padding: 2px 15px;
+    border-radius: 10px;
+}
+
+#main_menu a:hover {
+    background-color: var(--bghl1);
+    cursor: pointer;
+}

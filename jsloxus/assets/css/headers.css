@@ -1,0 +1,16 @@
+/* ========================
+   Header Styles
+======================== */
+#header {
+    max-width: 1200px;
+}
+
+#header_logo {
+    max-width: 40px;
+    margin: 0px 5px;
+}
+
+#theme_icon {
+    max-width: 30px;
+    margin: 0px 5px;
+}

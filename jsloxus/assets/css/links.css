@@ -1,0 +1,27 @@
+/* ========================
+   Links Section Styles
+======================== */
+#links {
+    width: fit-content;
+    margin: 0px 0px;
+    padding: 10px 10px;
+    text-align: left;
+    font-size: large;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#links a {
+    color: var(--link-color);
+    text-decoration: none;
+    margin: 3px 0px;
+    border: var(--border-color) 1px solid;
+    border-radius: 3px;
+    padding: 1px 5px;
+}
+
+#links a:hover {
+    background-color: #424242;
+    cursor: pointer;
+}
