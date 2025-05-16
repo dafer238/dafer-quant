@@ -25,9 +25,14 @@ split-debuginfo = "unpacked"  # Speeds up linking on some systems
 incremental = true    # Enable incremental compilation
 codegen-units = 16    # Parallelizes compilation units
 
+[profile.release]
+opt-level = 3       
+debug = false
+lto = "fat"
+panic = "abort"
+
 [profile.wasm-dev]
 inherits = "dev"
-opt-level = 1
 
 [profile.server-dev]
 inherits = "dev"
