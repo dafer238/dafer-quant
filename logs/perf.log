@@ -3,3 +3,36 @@
 [2025-05-04 16:51:43] SUCCESS [algjsl::main] took 4.454295ms
 [2025-05-05 14:17:47] SUCCESS [algjsl::main] took 3.914172ms
 [2025-05-05 14:32:50] SUCCESS [algjsl::main] took 4.848846ms
+[2025-05-16 13:54:18] SUCCESS [algjsl::main] took 4.387568ms
+[2025-05-16 14:19:30] SUCCESS [algjsl::main] took 3.842036ms
+[2025-05-16 14:22:00] SUCCESS [algjsl::main] took 4.414794ms
+[2025-05-16 14:26:38] SUCCESS [algjsl::main] took 4.436391ms
+[2025-05-16 14:28:30] SUCCESS [algjsl::main] took 5.838837ms
+[2025-05-16 14:32:46] SUCCESS [algjsl::main] took 5.601779ms
+[2025-05-16 14:34:46] SUCCESS [algjsl::main] took 5.32918ms
+[2025-05-16 14:36:59] SUCCESS [algjsl::main] took 4.53262ms
+[2025-05-16 14:44:06] SUCCESS [algjsl::main] took 11.91954ms
+[2025-05-16 14:44:54] SUCCESS [algjsl::main] took 5.641852ms
+[2025-05-16 14:46:05] SUCCESS [algjsl::main] took 3.160268ms
+[2025-05-16 14:48:20] SUCCESS [algjsl::main] took 5.15312ms
+[2025-05-16 14:49:12] SUCCESS [algjsl::main] took 26.318143ms
+[2025-05-16 14:50:23] ERROR   [algjsl::main] panicked after 34.66073ms
+[2025-05-16 14:52:38] SUCCESS [algjsl::main] took 58.17693ms
+[2025-05-16 14:54:24] SUCCESS [algjsl::main] took 66.987157ms
+[2025-05-16 14:55:38] SUCCESS [algjsl::main] took 65.956298ms
+[2025-05-16 14:59:53] SUCCESS [algjsl::main] took 84.009227ms
+[2025-05-16 15:00:49] SUCCESS [algjsl::main] took 35.625778ms
+[2025-05-16 15:02:57] SUCCESS [algjsl::main] took 40.294946ms
+[2025-05-16 15:03:58] SUCCESS [algjsl::main] took 34.570825ms
+[2025-05-16 15:04:35] SUCCESS [algjsl::main] took 57.973683ms
+[2025-05-16 15:05:11] ERROR   [algjsl::main] panicked after 9.532007ms
+[2025-05-16 15:06:08] SUCCESS [algjsl::main] took 5.274079ms
+[2025-05-16 15:06:37] SUCCESS [algjsl::main] took 3.262631ms
+[2025-05-16 15:07:59] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 3.243426ms
+[2025-05-16 15:07:59] SUCCESS [algjsl::main] took 14.746815ms
+[2025-05-16 15:08:21] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 1.409551ms
+[2025-05-16 15:08:21] SUCCESS [algjsl::main] took 12.844992ms
+[2025-05-16 15:08:56] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 42.701913ms
+[2025-05-16 15:08:56] SUCCESS [algjsl::main] took 55.502536ms
+[2025-05-16 15:10:11] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 60.934335ms
+[2025-05-16 15:10:11] SUCCESS [algjsl::main] took 77.605237ms
