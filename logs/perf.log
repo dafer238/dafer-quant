@@ -36,3 +36,76 @@
 [2025-05-16 15:08:56] SUCCESS [algjsl::main] took 55.502536ms
 [2025-05-16 15:10:11] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 60.934335ms
 [2025-05-16 15:10:11] SUCCESS [algjsl::main] took 77.605237ms
+[2025-05-19 10:13:10] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 39.474663ms
+[2025-05-19 10:13:10] SUCCESS [algjsl::main] took 44.38899ms
+[2025-05-19 10:14:08] ERROR   [algjsl::logic::data_reader::read_movements_csv] returned error IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None } after 140.384µs
+[2025-05-19 10:16:38] SUCCESS [algjsl::logic::data_reader::read_movements_csv] took 67.206368ms
+[2025-05-19 10:16:38] SUCCESS [algjsl::main] took 74.155914ms
+[2025-05-19 10:19:10] PANIC   [algjsl::logic::data_reader::read_movements_csv] panicked after 208.215µs
+[2025-05-19 10:19:10] PANIC   [algjsl::main] panicked after 3.59541ms
+[2025-05-19 10:20:55] ERROR   [algjsl::logic::data_reader::read_movements_csv] returned error IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None } after 365.553µs
+[2025-05-19 10:20:55] PANIC   [algjsl::main] panicked after 7.920594ms
+[2025-05-19T08:23:20.936521105+00:00] ERROR algjsl::logic::data_reader::read_movements_csv took 146.047µs: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-19T08:23:20.934516666+00:00] PANIC algjsl::main took 3.483891ms
+[2025-05-19T08:32:43.966325346+00:00] ERROR algjsl::logic::data_reader::read_movements_csv [84.732µs] returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-19T08:32:43.964204443+00:00] PANIC algjsl::main [3.042232ms]
+[2025-05-19T08:33:10.640602800+00:00] PANIC algjsl::logic::data_reader::read_movements_csv [408.749µs]
+[2025-05-19T08:33:10.636818852+00:00] PANIC algjsl::main [6.661084ms]
+[2025-05-19T08:34:38.972654859+00:00] SUCCESS algjsl::logic::data_reader::read_movements_csv [38.239185ms] ran succesfully.
+[2025-05-19T08:34:38.970772724+00:00] SUCCESS algjsl::main [42.727587ms] ran succesfully.
+[2025-05-19T08:51:56.622455918+00:00] SUCCESS algjsl::logic::data_reader::read_movements_csv [36.269612ms] ran succesfully.
+[2025-05-19T08:51:56.619725943+00:00] SUCCESS algjsl::main [42.844578ms] ran succesfully.
+[2025-05-19T08:57:54.553526802+00:00] [32mSUCCESS[0m algjsl::logic::data_reader::read_movements_csv [33948] ran successfully.
+[2025-05-19T08:57:54.551982267+00:00] [32mSUCCESS[0m algjsl::main [38525] ran successfully.
+[2025-05-19T08:59:04.133097190+00:00] [1m[32mSUCCESS[0m algjsl::logic::data_reader::read_movements_csv [42927] ran successfully.
+[2025-05-19T08:59:04.130335054+00:00] [1m[32mSUCCESS[0m algjsl::main [48621] ran successfully.
+[2025-05-19T08:59:39.665601800+00:00] [1m[31mPANIC[0m algjsl::logic::data_reader::read_movements_csv [516]
+[2025-05-19T08:59:39.663232363+00:00] [1m[31mPANIC[0m algjsl::main [4394]
+[2025-05-19T09:01:30.503564670+00:00] PANIC algjsl::logic::data_reader::read_movements_csv [179] panicked
+[2025-05-19T09:01:30.501165924+00:00] PANIC algjsl::main [3758] panicked
+[2025-05-19T09:03:01.117554679+00:00] PANIC algjsl::logic::data_reader::read_movements_csv [156.877µs] panicked
+[2025-05-19T09:03:01.115481840+00:00] PANIC algjsl::main [3.104754ms] panicked
+[2025-05-19T09:05:46.597869586+00:00] PANIC [158.506µs] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:05:46.595731878+00:00] PANIC [3.855133ms] algjsl::main panicked.
+[2025-05-19T09:08:13.270112087+00:00] PANIC [ 259.000 us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:08:13.267867539+00:00] PANIC [   3.000 ms] algjsl::main panicked.
+[2025-05-19T09:10:20.545868718+00:00] PANIC [324.0000us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:10:20.542880168+00:00] PANIC [  5.0000ms] algjsl::main panicked.
+[2025-05-19T09:10:51.819920247+00:00] PANIC [142.0000us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:10:51.817851142+00:00] PANIC [  2.0000ms] algjsl::main panicked.
+[2025-05-19T09:12:07.703107097+00:00] PANIC [00000243 us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:12:07.701592083+00:00] PANIC [00000002 ms] algjsl::main panicked.
+[2025-05-19T09:15:33.941201926+00:00] PANIC [304.000000 us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:15:33.939916067+00:00] PANIC [3.000000 ms] algjsl::main panicked.
+[2025-05-19T09:17:00.398968115+00:00] PANIC [176.000000 us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:17:00.397851742+00:00] PANIC [1.000000 ms] algjsl::main panicked.
+[2025-05-19T09:18:08.396804532+00:00] PANIC [136.000000 us] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:18:08.395060424+00:00] PANIC [2.000000 ms] algjsl::main panicked.
+[2025-05-19T09:19:10.833805784+00:00] PANIC [248.349μs] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:19:10.831530+00:00] PANIC [004.547ms] algjsl::main panicked.
+[2025-05-19T09:20:22.857953419+00:00] PANIC [170.230μs] algjsl::logic::data_reader::read_movements_csv panicked.
+[2025-05-19T09:20:22.854716575+00:00] PANIC [  4.239ms] algjsl::main panicked.
+[2025-05-19T09:20:59.700727869+00:00] ERROR [129.756μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-19T09:20:59.698926920+00:00] PANIC [  2.724ms] algjsl::main panicked.
+[2025-05-19T09:21:42.692706837+00:00] SUCCESS [ 28.649ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-05-19T09:21:42.690930571+00:00] SUCCESS [ 33.201ms] algjsl::main ran successfully
+[2025-05-19T09:22:53.849817097+00:00] ERROR [138.835μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-19T09:22:53.843995645+00:00] SUCCESS [  6.785ms] algjsl::main ran successfully
+[2025-05-19T09:24:42.233489042+00:00] ERROR   [245.283μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-19T09:24:42.231537189+00:00] SUCCESS [  2.831ms] algjsl::main ran successfully
+[2025-05-19T09:25:25.465155754+00:00] ERROR [ 88.561μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-19T09:25:25.462632071+00:00] SUCCESS [  3.214ms] algjsl::main ran successfully
+[2025-05-28T09:25:18.840076068+00:00] ERROR [ 91.134μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-28T09:25:18.838059039+00:00] SUCCESS [  2.982ms] algjsl::main ran successfully
+[2025-05-28T09:40:17.256147712+00:00] SUCCESS [ 24.596ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-05-28T09:40:17.253140915+00:00] SUCCESS [ 31.736ms] algjsl::main ran successfully
+[2025-05-28T09:48:18.002176213+00:00] ·ERROR· [  1.269ms] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-28T09:48:17.983306801+00:00] SUCCESS [ 36.387ms] algjsl::main ran successfully
+[2025-05-28T09:50:29.353758579+00:00] ERROR   [178.827μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-28T09:50:29.350802353+00:00] SUCCESS [  4.192ms] algjsl::main ran successfully
+[2025-05-28T09:53:00.032908617+00:00] ERROR   [299.360μs] algjsl::logic::data_reader::read_movements_csv returned error: IO { error: Custom { kind: NotFound, error: "No such file or directory (os error 2): ./datas/input/movements_dafer.csv" }, msg: None }
+[2025-05-28T09:53:00.026916897+00:00] PANIC   [  8.747ms] algjsl::main panicked.
+[2025-05-28T09:55:18.624305848+00:00] SUCCESS [ 39.996ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-05-28T09:55:18.619938798+00:00] SUCCESS [ 52.936ms] algjsl::main ran successfully
+[2025-05-28T09:56:50.636733188+00:00] SUCCESS [ 59.652ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-05-28T09:56:50.632547634+00:00] SUCCESS [ 70.869ms] algjsl::main ran successfully
