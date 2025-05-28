@@ -18,7 +18,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let file_path = "./data/input/movements_dafer.csv";
     let df = algjsl::logic::data_reader::read_movements_csv(&file_path);
-    println!("{:?}", df.unwrap());
+    println!("{:?}", df.ok());
 
     Ok(())
 }
