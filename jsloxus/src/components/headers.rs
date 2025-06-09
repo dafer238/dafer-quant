@@ -1,9 +1,9 @@
 // ./jsloxus/src/components/headers.rs
 
 use crate::assets::DARK_THEME;
-use crate::assets::HEADER_LOGO;
 use crate::assets::JSL_LOGO;
 use dioxus::prelude::*;
+// use crate::assets::HEADER_LOGO;
 
 #[component]
 pub fn HeaderMenu() -> Element {
