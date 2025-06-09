@@ -109,3 +109,15 @@
 [2025-05-28T09:55:18.619938798+00:00] SUCCESS [ 52.936ms] algjsl::main ran successfully
 [2025-05-28T09:56:50.636733188+00:00] SUCCESS [ 59.652ms] algjsl::logic::data_reader::read_movements_csv ran successfully
 [2025-05-28T09:56:50.632547634+00:00] SUCCESS [ 70.869ms] algjsl::main ran successfully
+[2025-06-03T14:42:23.786834673+00:00] SUCCESS [132.353ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-06-03T14:42:23.771888900+00:00] SUCCESS [163.739ms] algjsl::main ran successfully
+[2025-06-03T14:45:58.785912928+00:00] SUCCESS [ 36.851ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-06-03T14:45:58.779749684+00:00] SUCCESS [ 50.079ms] algjsl::main ran successfully
+[2025-06-05T08:27:09.217479475+00:00] SUCCESS [ 22.957ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-06-05T08:27:09.214491867+00:00] SUCCESS [ 30.009ms] algjsl::main ran successfully
+[2025-06-05T08:31:27.637515452+00:00] SUCCESS [ 19.408ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-06-05T08:31:27.635563581+00:00] SUCCESS [ 24.144ms] algjsl::main ran successfully
+[2025-06-05T08:32:42.891867942+00:00] SUCCESS [ 35.136ms] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-06-05T08:32:42.888727738+00:00] SUCCESS [ 40.766ms] algjsl::main ran successfully
+[2025-06-05T09:01:11.283741702+00:00] SUCCESS [300.536μs] algjsl::logic::data_reader::read_movements_csv ran successfully
+[2025-06-05T09:01:11.277015399+00:00] SUCCESS [ 55.168ms] algjsl::main ran successfully

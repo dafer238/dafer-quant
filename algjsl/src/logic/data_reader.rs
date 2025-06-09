@@ -4,12 +4,9 @@ use perf_macro::performance_log;
 use polars::prelude::*;
 
 #[performance_log]
-pub fn read_movements_csv(file_path: &str) -> Result<DataFrame, PolarsError> {
+pub fn read_movements_csv(file_path: &str) -> Result<LazyFrame, PolarsError> {
     println!("Reading movements from {}", file_path);
-    let df = CsvReadOptions::default()
-        .with_has_header(true)
-        .try_into_reader_with_file_path(Some(file_path.into()))?
-        .finish()?;
+    let df = LazyCsvReader::new(file_path).finish()?;
 
     Ok(df)
 }

@@ -17,8 +17,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Configuration loaded successfully. Config: {:.?}", config);
 
     let file_path = "./data/input/movements_dafer.csv";
-    let df = algjsl::logic::data_reader::read_movements_csv(&file_path);
-    println!("{:?}", df.ok());
+    let _lf = algjsl::logic::data_reader::read_movements_csv(&file_path).unwrap();
+    // println!("{:?}", lf.collect());
 
     Ok(())
 }
