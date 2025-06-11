@@ -1,0 +1,462 @@
+{
+	"info": {
+		"_postman_id": "a25430b4-07ec-4466-a041-2b0bca00a0ff",
+		"name": "Alphavantage",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37129740"
+	},
+	"item": [
+		{
+			"name": "Time series",
+			"item": [
+				{
+					"name": "TIME_SERIES_INTRADAY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_INTRADAY&symbol=NVDA&interval=1m&month=2025-01&outputsize=full&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_INTRADAY"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "interval",
+									"value": "1m"
+								},
+								{
+									"key": "month",
+									"value": "2025-01",
+									"description": "YYYY-mm"
+								},
+								{
+									"key": "outputsize",
+									"value": "full",
+									"description": "compact (only 100 instances), full (all instances)"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TIME_SERIES_DAILY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_DAILY&symbol=NVDA&outputsize=full&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_DAILY"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "outputsize",
+									"value": "full",
+									"description": "compact (only 100 instances), full (all instances)"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TIME_SERIES_WEEKLY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_WEEKLY&symbol=NVDA&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_WEEKLY"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TIME_SERIES_WEEKLY_ADJUSTED",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_WEEKLY_ADJUSTED&symbol=NVDA&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_WEEKLY_ADJUSTED"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TIME_SERIES_MONTHLY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_MONTHLY&symbol=NVDA&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_MONTHLY"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TIME_SERIES_MONTHLY_ADJUSTED",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=NVDA&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_MONTHLY_ADJUSTED"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TIME_SERIES_DAILY_ADJUSTED (PREMIUM)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=TIME_SERIES_DAILY_ADJUSTED&symbol=NVDA&outputsize=full&datatype=json",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"query"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{ApiKey}}"
+								},
+								{
+									"key": "function",
+									"value": "TIME_SERIES_DAILY_ADJUSTED"
+								},
+								{
+									"key": "symbol",
+									"value": "NVDA"
+								},
+								{
+									"key": "outputsize",
+									"value": "full",
+									"description": "compact (only 100 instances), full (all instances)"
+								},
+								{
+									"key": "datatype",
+									"value": "json",
+									"description": "json, csv"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Quote Endpoint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=GLOBAL_QUOTE&symbol=NVDA&datatype=json",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"query"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "{{ApiKey}}"
+						},
+						{
+							"key": "function",
+							"value": "GLOBAL_QUOTE"
+						},
+						{
+							"key": "symbol",
+							"value": "NVDA"
+						},
+						{
+							"key": "datatype",
+							"value": "json",
+							"description": "json, csv"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Realtime Bulk Quotes (PREMIUM)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=REALTIME_BULK_QUOTES&symbol=NVDA,AAPL,MSFT,GOOG,TSLA&datatype=json",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"query"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "{{ApiKey}}"
+						},
+						{
+							"key": "function",
+							"value": "REALTIME_BULK_QUOTES"
+						},
+						{
+							"key": "symbol",
+							"value": "NVDA,AAPL,MSFT,GOOG,TSLA",
+							"description": "Comma sepparated up to 100"
+						},
+						{
+							"key": "datatype",
+							"value": "json",
+							"description": "json, csv"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Endpoint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=SYMBOL_SEARCH&keywords=microsoft&datatype=json",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"query"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "{{ApiKey}}"
+						},
+						{
+							"key": "function",
+							"value": "SYMBOL_SEARCH"
+						},
+						{
+							"key": "keywords",
+							"value": "microsoft",
+							"description": "Search term to match TICKERS"
+						},
+						{
+							"key": "datatype",
+							"value": "json",
+							"description": "json, csv"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Global Market Open & Close Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/query?apikey={{ApiKey}}&function=MARKET_STATUS",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"query"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "{{ApiKey}}"
+						},
+						{
+							"key": "function",
+							"value": "MARKET_STATUS"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "https://www.alphavantage.co/",
+			"type": "string"
+		},
+		{
+			"key": "ApiKey",
+			"value": "A4WLI1Q31J9H6477",
+			"type": "string"
+		}
+	]
+}

@@ -2890,7 +2890,6 @@ dependencies = [
 name = "jsloxus"
 version = "0.1.0"
 dependencies = [
- "algjsl",
  "dioxus",
  "perf_macro",
 ]
