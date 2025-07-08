@@ -2,10 +2,10 @@
 
 [workspace]
 resolver = "3"
-members = ["algjsl", 
-           "perf_macro", 
-           "utils", 
-           "jsloxus"
+members = ["jsl-core", 
+           "jsl-perf", 
+           "jsl-utils", 
+           "jsl-frontend"
           ]
 
 [workspace.dependencies]

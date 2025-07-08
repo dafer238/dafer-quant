@@ -1,0 +1,21 @@
+# ./jsl-perf/Cargo.toml
+
+[package]
+name = "jsl-perf"
+version = "0.1.0"
+authors = ["dafer <dafernandezperez@gmail.com>"]
+edition = "2024"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+
+# Local crates
+jsl-utils = {path="../jsl-utils"}           # jsl-utils common to the project
+
+chrono.workspace = true
+
+syn = { version = "2", features = ["full"] }
+quote = "1"  # You probably have this too
+proc-macro2 = "1"

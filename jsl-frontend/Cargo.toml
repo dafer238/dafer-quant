@@ -1,0 +1,23 @@
+# ./jsl-frontend/Cargo.toml
+
+[package]
+name = "jsl-frontend"
+version = "0.1.0"
+authors = ["dafer <dafernandezperez@gmail.com>"]
+edition = "2024"
+
+[dependencies]
+
+# Local crates
+jsl-perf = {path="../jsl-perf"} # Macro to measure jsl-performance
+# jsl-utils = {path="../jsl-utils"}           # jsl-utils common to the project
+# jsl-core = {path="../jsl-core"}
+
+# External crates
+dioxus = { version = "0.6.0", features = [] }
+
+[features]
+default = ["web"]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]

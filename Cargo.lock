@@ -40,26 +40,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "algjsl"
-version = "0.1.0"
-dependencies = [
- "argon2",
- "base64",
- "chrono",
- "dotenvy",
- "perf_macro",
- "polars",
- "rand 0.9.1",
- "serde",
- "serde_json",
- "sqlx",
- "thiserror 2.0.12",
- "tokio",
- "utils",
- "uuid",
-]
-
-[[package]]
 name = "allocator-api2"
 version = "0.2.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2887,11 +2867,50 @@ dependencies = [
 ]
 
 [[package]]
-name = "jsloxus"
+name = "jsl-core"
+version = "0.1.0"
+dependencies = [
+ "argon2",
+ "base64",
+ "chrono",
+ "dotenvy",
+ "jsl-perf",
+ "jsl-utils",
+ "polars",
+ "rand 0.9.1",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "thiserror 2.0.12",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "jsl-frontend"
 version = "0.1.0"
 dependencies = [
  "dioxus",
- "perf_macro",
+ "jsl-perf",
+]
+
+[[package]]
+name = "jsl-perf"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "jsl-utils",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
+]
+
+[[package]]
+name = "jsl-utils"
+version = "0.1.0"
+dependencies = [
+ "plotly",
+ "polars",
 ]
 
 [[package]]
@@ -3792,17 +3811,6 @@ name = "percent-encoding"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3148f5046208a5d56bcfc03053e3ca6334e51da8dfb19b6cdc8b306fae3283e"
-
-[[package]]
-name = "perf_macro"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "proc-macro2",
- "quote",
- "syn 2.0.101",
- "utils",
-]
 
 [[package]]
 name = "phf"
@@ -6490,14 +6498,6 @@ name = "utf8_iter"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be"
-
-[[package]]
-name = "utils"
-version = "0.1.0"
-dependencies = [
- "plotly",
- "polars",
-]
 
 [[package]]
 name = "uuid"

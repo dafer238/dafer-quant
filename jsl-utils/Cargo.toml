@@ -1,0 +1,15 @@
+# ./jsl-utils/Cargo.toml
+
+[package]
+name = "jsl-utils"
+version = "0.1.0"
+authors = ["dafer <dafernandezperez@gmail.com>"]
+edition = "2024"
+
+[dependencies]
+
+# Workspace shared dependancies
+polars.workspace = true
+
+# Crate specific dependancies
+plotly = "0.12.1"
