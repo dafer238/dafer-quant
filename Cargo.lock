@@ -4275,6 +4275,8 @@ version = "0.1.0"
 dependencies = [
  "plotly",
  "polars",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

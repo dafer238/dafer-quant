@@ -1,6 +1,7 @@
 // ./pmm-core/src/modules/transactions.rs
 
 use chrono::{DateTime, Utc};
+use pmm_utils::money::ScaledInt;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -11,11 +12,33 @@ pub struct Transaction {
     position_id: Uuid,                 // Reference to the Position
     transaction_type: TransactionType, // Type of transaction
     datetime: DateTime<Utc>,           // When the transaction occurred
-    shares: f64,                       // Number of shares involved
-    price: f64,                        // Price per share
-    fees: f64,                         // Transaction fees/commissions
+    shares: ScaledInt,                 // Number of shares involved (exact decimal)
+    price: ScaledInt,                  // Price per share (exact decimal)
+    fees: ScaledInt,                   // Transaction fees/commissions (exact decimal)
     notes: Option<String>,             // Optional notes about the transaction
     transfer_id: Option<Uuid>,         // Reference to a transfer if this transaction is part of one
+}
+
+impl Transaction {
+    /// Compute the total cost of this transaction: `shares * price + fees`.
+    ///
+    /// Uses exact scaled-integer arithmetic — no floating-point rounding.
+    pub fn total_cost(&self) -> ScaledInt {
+        (self.shares * self.price) + self.fees
+    }
+
+    /// Compute the net amount (total cost with sign based on transaction type).
+    ///
+    /// - Buy / Fee: negative (cash outflow)
+    /// - Sell / Dividend: positive (cash inflow)
+    /// - Other types: positive by default
+    pub fn net_amount(&self) -> ScaledInt {
+        let cost = self.total_cost();
+        match self.transaction_type {
+            TransactionType::Buy | TransactionType::Fee => -cost,
+            _ => cost,
+        }
+    }
 }
 
 /// Types of transactions

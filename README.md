@@ -14,6 +14,51 @@ The framework is architected as a modular Rust workspace, prioritizing:
 - **Safety**: Rust's ownership model and type system eliminate entire classes of bugs — no null pointer dereferences, no data races, no use-after-free. Every data pipeline and concurrent operation is verified at compile time.
 - **Zero-Cost Abstractions**: Generic programming, traits, and procedural macros (see `pmm-perf`) provide high-level ergonomics with no runtime overhead.
 - **Concurrency**: Asynchronous I/O via [Tokio](https://tokio.rs/) for database operations and network calls, with Rust's borrow checker guaranteeing thread safety at compile time.
+- **Exact Monetary Arithmetic**: All financial calculations (prices, fees, share counts, portfolio values) use **scaled integers** (`ScaledInt`) instead of IEEE 754 floating-point (`f64`). This eliminates the rounding errors that silently corrupt balances and P&L figures in most financial software.
+
+## Monetary Precision — Scaled Integer Arithmetic
+
+Financial calculations demand **exact** decimal arithmetic. IEEE 754 floating-point numbers (`f32`/`f64`) cannot represent many common decimal fractions exactly:
+
+```
+// Floating-point (f64) — WRONG
+0.1 + 0.2 = 0.30000000000000004
+
+// Scaled integer (ScaledInt) — EXACT
+0.1 + 0.2 = 0.3
+```
+
+These errors compound silently across thousands of transactions, fee calculations, tax computations, and P&L aggregations, eventually producing incorrect balances and audit trails.
+
+### How it works
+
+The `ScaledInt` type (defined in `pmm-utils/src/money.rs`) stores every monetary value as an `i64` multiplied by a fixed scale factor of **10⁸** (100,000,000). This provides **8 decimal digits** of fractional precision — enough for sub-cent accuracy, cryptocurrency amounts, and FX rates.
+
+| Concept          | Representation              |
+| ---------------- | --------------------------- |
+| `$1.00`          | `ScaledInt(100_000_000)`    |
+| `$152.35`        | `ScaledInt(15_235_000_000)` |
+| `0.00000001 BTC` | `ScaledInt(1)`              |
+
+- **Addition / Subtraction**: Direct integer add/sub — always exact.
+- **Multiplication / Division**: Promoted to `i128` intermediates before rescaling — no overflow, no precision loss.
+- **Range**: ±92,233,720,368.54775807 — sufficient for any individual instrument or portfolio roll-up.
+- **Serialization**: Serialized as decimal strings (`"152.35"`) in JSON and databases, avoiding any precision loss.
+
+### Usage in the codebase
+
+```rust
+use pmm_utils::money::ScaledInt;
+
+let price  = ScaledInt::from_f64(42.37);   // Convert at the boundary (data ingestion)
+let shares = ScaledInt::from_f64(150.0);
+let fee    = ScaledInt::from_f64(9.99);
+
+let total = (shares * price) + fee;        // Exact: 6365.49
+assert_eq!(total.to_f64(), 6365.49);       // Convert back only for display/plotting
+```
+
+> **Rule of thumb**: convert from `f64` **once** at data ingestion, perform all intermediate arithmetic with `ScaledInt`, and convert back to `f64` **only** at the output boundary (UI, charts, external API responses).
 
 ## Architecture
 
