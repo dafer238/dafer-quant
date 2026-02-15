@@ -2,10 +2,10 @@
 
 [workspace]
 resolver = "3"
-members = ["pmm-core", 
-           "pmm-perf", 
-           "pmm-utils", 
-           "pmm-frontend"
+members = ["crates/pmm-core",
+           "crates/pmm-perf",
+           "crates/pmm-utils",
+           "crates/pmm-frontend"
           ]
 
 [workspace.dependencies]
