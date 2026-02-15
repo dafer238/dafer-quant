@@ -1,0 +1,29 @@
+# ./pmm-core/Cargo.toml
+
+[package]
+name = "pmm-core"
+version = "0.1.0"
+authors = ["Daniel Perez <daniel.perez@pmmgt.com>"]
+edition = "2024"
+
+[dependencies]
+
+# Local crates
+pmm-perf = {path="../pmm-perf"} # Macro to measure pmm-performance
+pmm-utils = {path="../pmm-utils"}           # pmm-utils common to the project
+
+# Shared from the workspace
+chrono.workspace = true             
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+dotenvy.workspace = true
+polars.workspace = true
+
+# Backend calculations specific
+tokio = {version="1.49.0", features=["full"]}
+sqlx = {version="0.8.6", features = ["sqlite", "runtime-tokio-native-tls", "uuid", "chrono", "json"] }
+argon2 = {version="0.5.3", features=["rand", "std"]}
+thiserror = "2.0.18"
+rand = { version = "0.10.0" }
+base64 = "0.22.1"

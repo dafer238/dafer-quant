@@ -1,0 +1,32 @@
+# ./Cargo.toml
+
+[workspace]
+resolver = "3"
+members = ["pmm-core", 
+           "pmm-perf", 
+           "pmm-utils", 
+           "pmm-frontend"
+          ]
+
+[workspace.dependencies]
+
+# Shared across the workspace
+chrono = {version="0.4.41", features=["serde"]}
+serde = {version="1.0.228", features=["derive"]}
+serde_json = "1.0.149"
+uuid = { version = "1.20.0", features = ["v4", "serde"] }
+dotenvy = "0.15.7"
+polars = { version = "0.53.0", default-features = false, features = ["lazy","csv", "describe", "fmt", "serde"] }
+
+[profile.dev]
+opt-level = 0         # Don't optimize
+debug = true          # Keep debug info
+split-debuginfo = "unpacked"  # Speeds up linking on some systems
+incremental = true    # Enable incremental compilation
+codegen-units = 16    # Parallelizes compilation units
+
+[profile.release]
+opt-level = 3       
+debug = false
+lto = "fat"
+panic = "abort"

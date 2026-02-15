@@ -1,0 +1,15 @@
+# ./pmm-utils/Cargo.toml
+
+[package]
+name = "pmm-utils"
+version = "0.1.0"
+authors = ["Daniel Perez <daniel.perez@pmmgt.com>"]
+edition = "2024"
+
+[dependencies]
+
+# Workspace shared dependancies
+polars.workspace = true
+
+# Crate specific dependancies
+plotly = "0.14.0"

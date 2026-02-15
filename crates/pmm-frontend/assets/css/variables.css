@@ -1,0 +1,11 @@
+/* ========================
+   Global Variables
+======================== */
+:root {
+    --bg1: #0f1116;
+    --bghl1: #424242;
+    --bg2: #202020;
+    --text-color: orange;
+    --link-color: #ffffff;
+    --border-color: white;
+}

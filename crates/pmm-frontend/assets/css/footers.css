@@ -1,0 +1,14 @@
+/* ========================
+   Footer Styles
+======================== */
+#footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--bg2);
+    color: var(--link-color);
+    text-align: left;
+}
+
+#footer_content {
+    margin: 5px 0;
+}
